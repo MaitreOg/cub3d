@@ -28,51 +28,51 @@ void	ft_mlx_pixel_put(t_data *data, int x, int y, int color)
 		*(unsigned int *)dest = color;
 	}
 }
-void	draw_cub_1(t_data *data, int i, int color)
+void	draw_cub_1(t_data *data, t_point *lst, int color)
 {
 	int	x;
 	int	y;
+	int	side;
 
-	y = data->map[i].y;
-	while (y < data->map[i].y + data->side)
+	side = data->side;
+	y = lst->y * side;
+	while (y < lst->y * side + data->side)
 	{
-		x = data->map[i].x;
-		while (x < data->map[i].x + data->side)
+		x = lst->x * side;
+		while (x < lst->x * side + data->side)
 		{
 			ft_mlx_pixel_put(data, x, y, color);
 			x++;
 		}
 		y++;
 	}
-	while (y < data->map[i].y + data->side)
-	{
-		ft_mlx_pixel_put(data, x, y, color);
-		y++;
-	}
 }
-void	draw_cub_0(t_data *data, int i, int color)
+
+void	draw_cub_0(t_data *data, t_point *lst, int color)
 {
 	int	x;
 	int	y;
+	int	side;
 
-	x = data->map[i].x;
-	y = data->map[i].y;
-	while (x < data->map[i].x + data->side)
+	side = data->side;
+	x = lst->x * side;
+	y = lst->y * side;
+	while (x < lst->x * side + data->side)
 	{
 		ft_mlx_pixel_put(data, x, y, color);
 		x++;
 	}
-	while (y < data->map[i].y + data->side)
+	while (y < lst->y * side + data->side)
 	{
 		ft_mlx_pixel_put(data, x, y, color);
 		y++;
 	}
-	while (x > data->map[i].x)
+	while (x > lst->x * side)
 	{
 		ft_mlx_pixel_put(data, x, y, color);
 		x--;
 	}
-	while (y > data->map[i].y)
+	while (y > lst->y * side)
 	{
 		ft_mlx_pixel_put(data, x, y, color);
 		y--;
@@ -80,108 +80,73 @@ void	draw_cub_0(t_data *data, int i, int color)
 }
 void	draw_map(t_data *data)
 {
-	int	i;
+	t_point	*tmp;
 
-	i = 0;
-	while(i < data->len)
+	tmp = data->map;
+	while(tmp)
 	{
-		if (data->map[i].b == 0)
-			draw_cub_0(data, i, 0xFFFFFF);
+		if (tmp->b == '1')
+			draw_cub_1(data, tmp, 0xFFFFFF);
 		else
-			draw_cub_1(data, i, 0xFFFFFF);
-
-		i++;
+			draw_cub_0(data, tmp, 0xFFFFFF);
+		tmp = tmp->next;
 	}
 	create_player(data);
 }
-int add_node(char *line, t_data *data, int i, int y)
+t_point *add_node(t_data *data, t_point *lst, int x, int y, char b)
 {
-	int	x;
+	t_point *tmp;
+	t_point *node;
 
-	x = 0;
-	while (line[x] && line[x] != '\n')
+	tmp = lst;
+	node = malloc(sizeof(t_point));
+	if (!node)
+		return (NULL);
+	if (b == 'N' || b == 'W' || b == 'S' || b == 'E')
 	{
-		data->map[i].x = x * data->side;
-		data->map[i].y = y * data->side;
-		data->map[i].b = line[x] - '0';
-		//printf("x = %d       y = %d      b = %d\n", data->map[i].x, data->map[i].y, data->map[i].b);
-		//printf ("[x = %d, y = %d, b = %d]", data->map[i].x, data->map[i].y, data->map[i].b);
-		i++;
-		x++;
+		data->corner = 0;
+		data->player->x = x;
+		data->player->y = y;
 	}
-	data->len = i;
-	draw_map(data);
-	return (i);
-}
-
-void	create_player(t_data *data)
-{
-	ft_mlx_pixel_put(data, data->player->x, data->player->y, 0xFF00FF);
-	ft_mlx_pixel_put(data, data->player->x - 1, data->player->y, 0xFF00FF);
-	ft_mlx_pixel_put(data, data->player->x, data->player->y - 1, 0xFF00FF);
-	ft_mlx_pixel_put(data, data->player->x - 1, data->player->y - 1, 0xFF00FF);
-	ft_mlx_pixel_put(data, data->player->x + 1, data->player->y, 0xFF00FF);
-	ft_mlx_pixel_put(data, data->player->x, data->player->y + 1, 0xFF00FF);
-	ft_mlx_pixel_put(data, data->player->x + 1 , data->player->y + 1, 0xFF00FF);
-	ft_mlx_pixel_put(data, data->player->x - 1, data->player->y + 1, 0xFF00FF);
-	ft_mlx_pixel_put(data, data->player->x + 1, data->player->y - 1, 0xFFF00F);
+	node->x = x;
+	node->y = y;
+	node->b = b;
+	node->next = NULL;
+	if (!tmp)
+		return (node);
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = node;
+	return (lst);
 }
 
 void	create_map(t_data *data)
 {
 	int		fd;
-	int		i;
+	int	i;
 	char	*line;
-	int		y;
+	int	y;
 
 	y = 0;
 	i = 0;
 	fd = open("test_map.txt", 0);
 	line = get_next_line(fd);
 	data->map = malloc(sizeof(t_point *));
+	data->map = NULL;
 	data->player = malloc(sizeof(t_point));
 	while (line)
 	{
-		i += add_node(line, data, i, y);
+		i = -1;
+		while(line[++i] && line[i] != '\n')
+			data->map = add_node(data, data->map, i, y, line[i]);
 		line = get_next_line(fd);
 		y++;
 	}
 	get_next_line(-1);
 	close (fd);
-	data->player->x = 7 * data->side;
-	data->player->y = 3 * data->side;
-	create_player(data);
+	draw_map(data);
 }
 
-/*char **create_map(img)
-{
-	int		fd;
-	int		i;
-	char	**tab;
-	char	*line;
-
-	i = 0;
-	fd = open("test_map.txt", 0);
-	line = get_next_line(fd);
-	while (line)
-	{
-		line = get_next_line(fd);
-		i++;
-	}
-	map = malloc(sizeof(char *) * i + 1);
-	close (fd);
-	fd = open("test_map.txt", 0);
-	i = 0;
-	line = get_next_line(fd);
-	while (line)
-	{
-		tab[i] = ft_strdup(line);
-		printf("%s", tab[i]);
-		line = get_next_line(fd);
-		i++;
-	}
-	return (map);
-}*/
 void	start_value(t_data *data)
 {
 	data->side = 50;

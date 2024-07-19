@@ -11,9 +11,9 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -g
 
-MLX_FLAGS = -L/usr/X11R6/lib -lX11 -lXext
+MLX_FLAGS = -lX11 -lXext -Imlx -lm
 
-SRCS = main.c key_hook.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c utils.c
+SRCS = main.c key_hook.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c utils.c player.c
 
 OBJECTS = $(SRCS:.c=.o)
 

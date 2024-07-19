@@ -12,6 +12,23 @@
 
 #include "cub3d.h"
 
+int	test_block(t_data *data, int x, int y)
+{
+	t_point *tmp;
+	tmp = data->map;
+	while(tmp)
+	{
+		if (tmp->x == x && tmp->y == y)
+			break;
+		tmp = tmp->next;
+	}
+	if (!tmp)
+		return (1);
+	if (tmp->b == '1')
+		return  (1);
+	return (0);
+}
+
 void	recovery(t_data *map)
 {
 	int i;
@@ -46,7 +63,8 @@ int	key_hook(int keycode, t_data *data)
 	{
 		recovery(data);
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
-		data->player->y += 1;
+		if (test_block(data, data->player->x, data->player->y + 0.1) == 0)
+				data->player->y += 0.1;
 		draw_map(data);
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
 	}
@@ -54,7 +72,8 @@ int	key_hook(int keycode, t_data *data)
 	{
 		recovery(data);
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
-		data->player->x -= 1;
+		if (test_block(data, data->player->x - 0.1, data->player->y) == 0)
+			data->player->x -= 0.1;
 		draw_map(data);
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
 	}
@@ -62,7 +81,8 @@ int	key_hook(int keycode, t_data *data)
 	{
 		recovery(data);
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
-		data->player->x += 1;
+		if (test_block(data, data->player->x + 0.1, data->player->y) == 0)
+		data->player->x += 0.1;
 		draw_map(data);
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
 	}
@@ -70,10 +90,27 @@ int	key_hook(int keycode, t_data *data)
 	{
 		recovery(data);
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
-		data->player->y -= 1;
+		if (test_block(data, data->player->x, data->player->y - 0.1) == 0)
+			data->player->y -= 0.1;
 		draw_map(data);
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
 	}
-    printf("%d\n", keycode);
+	else if (keycode == 65361)
+	{
+		recovery(data);
+		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
+		data->corner -= 0.05;
+		draw_map(data);
+		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
+	}
+	else if (keycode == 65363)
+	{
+		recovery(data);
+		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
+		data->corner += 0.05;
+		draw_map(data);
+		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
+	}
+    //printf("%d\n", keycode);
 	return (0);
 }
