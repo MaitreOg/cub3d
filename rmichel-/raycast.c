@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:49:12 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/29 14:21:46 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/29 15:24:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,12 @@ int	dda(t_pos *side_dist, t_pos delta, t_pos *floored, t_pos *step)
 }
 
 
-int   launch_ray(t_pos player, t_pos dir_ray)
+int   launch_ray(t_pos player, t_pos dir_ray, t_pos *side_dist, int *side)
 {
     t_pos	floored;
     t_pos	delta;
     t_pos	step;
-    t_pos	side_dist;
     t_pos	vec[4];
-    int		side; 
 
     floored.x = (float)((int)(player.x));
     floored.y = (float)((int)(player.y));
@@ -82,12 +80,12 @@ int   launch_ray(t_pos player, t_pos dir_ray)
     delta.y = absf(1/dir_ray.y);
     side_dist = init_side(dir_ray, player, floored, delta);
     step = init_step(dir_ray);
-    side = dda(&side_dist, delta, &floored, &step);
+    *side = dda(side_dist, delta, &floored, &step);
     vec[0] = floored;
     vec[1] = delta;
     vec[2] = step;
-    vec[3] = side_dist;
-    return (calc_height(vec, side, player, dir_ray));
+    vec[3] = *side_dist;
+    return (calc_height(vec, *side, player, dir_ray));
 }
 
 void	raycast(t_pos player, t_pos dir_cam, t_pos plane_cam, void *mlx, void *win)
@@ -96,15 +94,19 @@ void	raycast(t_pos player, t_pos dir_cam, t_pos plane_cam, void *mlx, void *win)
     t_pos	dir_ray;
     int		wall;
     int		to_draw[2];
-    void    *img;
+    void	*img;
+    t_pos	side_dist;
+    int		side;
 
+    side_dist.x = 0.0;
+    side_dist.y = 0.0;
     img = mlx_new_image(mlx, 640, 480);
     x = -1;
     while (++x < WIDTH)
     {
         printf("Hey x = %d\n", x);
         dir_ray = calc_dir_ray(x, dir_cam, plane_cam);
-        wall = launch_ray(player, dir_ray);
+        wall = launch_ray(player, dir_ray, &side_dist, &side);
         printf("Hey wall = %d\n", wall);
         to_draw[0] = (-1 * wall) / 2 + HEIGHT / 2;
         if (to_draw[1] >= HEIGHT)
@@ -113,7 +115,7 @@ void	raycast(t_pos player, t_pos dir_cam, t_pos plane_cam, void *mlx, void *win)
         if (to_draw[0] < 0)
             to_draw[0] = 0;
         printf("Hey td0 = %d and td1 = %d\n", to_draw[0], to_draw[1]);
-        create_img(to_draw, x, &img);
+        create_img(to_draw, x, &img, side_dist, side, mlx);
     }
     mlx_put_image_to_window(mlx, win, img, 0, 0);
 }
