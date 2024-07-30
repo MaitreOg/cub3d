@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:06:32 by smarty            #+#    #+#             */
-/*   Updated: 2024/07/30 15:26:04 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/30 16:56:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	recovery(t_data *map)
 
 int	key_hook(int keycode, t_data *data)
 {
-	printf("corner = %f\n", data->corner);
+	//printf("corner = %f\n", data->corner);
 	if (keycode == 65307)
 	{
 		mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
@@ -82,7 +82,7 @@ int	key_hook(int keycode, t_data *data)
 		data->player.x += cos(data->corner) * 0.05;
 		data->player.y += sin(data->corner) * 0.05;
 		raycast(data, data->mlx_ptr, data->win_ptr);
-    	printf("cos(corner) = %f\tsin(corner) = %f\n", cos(data->corner) / 2, sin(data->corner) / 2);
+    	//printf("cos(corner) = %f\tsin(corner) = %f\n", cos(data->corner) / 2, sin(data->corner) / 2);
 		//mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
 	}
 	else if (keycode == 100)
@@ -136,7 +136,7 @@ int	key_hook(int keycode, t_data *data)
 		raycast(data, data->mlx_ptr, data->win_ptr);
 	//	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img , 0, 0);
 	}
-    printf("player.x  = %f\tplayer.y =  %f\n", data->player.x, data->player.y);
-	printf("keycode = %d\n\n\n\n", keycode);
+   // printf("player.x  = %f\tplayer.y =  %f\n", data->player.x, data->player.y);
+	//printf("keycode = %d\n\n\n\n", keycode);
 	return (0);
 }

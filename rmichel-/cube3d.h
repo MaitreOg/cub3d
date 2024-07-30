@@ -86,4 +86,6 @@ t_pos	init_step(t_pos dir_ray);
 void create_img(t_data *dt, t_img  *img, void *mlx);
 int	key_hook(int keycode, t_data *data);
 void	raycast(t_data *dt, void *mlx, void *win);
+float	absf(float nb);
+
 #endif
