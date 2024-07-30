@@ -1,53 +1,85 @@
 
 #include "cube3d.h"
 
-int get_px_color(int td, char *file, t_pos side_dist, int side, void *mlx)
+void apply_texture(t_img *img, t_img *texture, int x_img, int y_img, int x_tex, int y_tex)
 {
-    int		column;
-    void	*img;
-    char	*adr;
-    int		dt[4];
-
-    img = mlx_xpm_file_to_image(mlx, file, 100, 100);
-    adr = mlx_get_data_addr(img, &(dt[0]), &(dt[1]), &(dt[2]));
-    if (side == 1)
-        column = (int)((side_dist.y - (float)((int)side_dist.y)) * 100);
-    else
-        column = (int)((side_dist.x - (float)((int)side_dist.x)) * 100);
-    dt[3] = (td * dt[1]) + (column * 4);
-    if (dt[2] == 0)
-        return (ft_atoi(adr[dt[3]]));
-    else
-        return (0xFFFFFF);
-    
+    int color = texture->data[y_tex * TEX_WIDTH + x_tex];
+    if (img->data[y_img * img->width + x_img] != color)
+        img->data[y_img * img->width + x_img] = color;
 }
 
-void create_img(int to_draw[], int x, void **img, t_pos side_dist, int side, void *mlx)
+void get_color_px(t_math_dt *dt, t_img *img, t_img texture[])
+{
+    float wallx;
+    int texx;
+    int texy;
+    int y;
+    int d;
+
+    if (dt->side == 0)
+        wallx = dt->player.y + dt->wall_dist * dt->dir_ray.y;
+    else
+        wallx = dt->player.x + dt->wall_dist * dt->dir_ray.x;
+    wallx -= floorf(wallx);
+    texx = (int)(wallx * (float)TEX_WIDTH);
+    if (dt->side == 0 && dt->dir_ray.x > 0)
+        texx = TEX_WIDTH - texx - 1;
+    if (dt->side == 1 && dt->dir_ray.y < 0)
+        texx = TEX_WIDTH - texx - 1;
+    y = dt->to_draw[0];
+    while (y < dt->to_draw[1])
+    {
+        d = y * 256 - HEIGHT * 128 + dt->lineh * 128;
+        texy = ((d * TEX_HEIGHT) / dt->lineh) / 256;
+        if (dt->dir_cam.y < 0)
+        {
+            if (dt->side == 0)
+                apply_texture(img, &texture[0], dt->x, y, texx, texy);
+            else
+            {
+                if (atan2f(dt->dir_cam.x, dt->dir_cam.y) < 1.5708)
+                    apply_texture(img, &texture[3], dt->x, y, texx, texy);
+                else
+                    apply_texture(img, &texture[2], dt->x, y, texx, texy);
+            }
+        }
+        else
+        {
+            if (dt->side == 0)
+                apply_texture(img, &texture[1], dt->x, y, texx, texy);
+            else
+            {
+                if (atan2f(dt->dir_cam.x, dt->dir_cam.y) < 1.5708)
+                    apply_texture(img, &texture[2], dt->x, y, texx, texy);
+                else
+                    apply_texture(img, &texture[3], dt->x, y, texx, texy);
+            }
+        }
+        y++;
+    }
+}
+
+void create_img(t_math_dt *dt, t_img  *img, void *mlx)
 {
     static int color = 0xFFFFFF;
-    int pixelc[2];
-    int endian;
-    char *buffer;
+    t_img   texture[4];
 
-    buffer = mlx_get_data_addr(*img, &(pixelc[0]), &(pixelc[1]), &endian);
-    while (to_draw[0] < to_draw[1])
-    {
-        int pixel = (to_draw[0] * pixelc[1]) + (x * 4);
-        if (endian == 1)
-        {
-            buffer[pixel + 0] = (color >> 24);
-            buffer[pixel + 1] = (color >> 16) & 0xFF;
-            buffer[pixel + 2] = (color >> 8) & 0xFF;
-            buffer[pixel + 3] = (color) & 0xFF;
-        }
-        else if (endian == 0)
-        {
-            buffer[pixel + 0] = (color) & 0xFF;
-            buffer[pixel + 1] = (color >> 8) & 0xFF;
-            buffer[pixel + 2] = (color >> 16) & 0xFF;
-            buffer[pixel + 3] = (color >> 24);
-        }
-        buffer[pixel] = color;
-        (to_draw[0])++;
-    }
+    texture[0].height = 100;
+    texture[0].width = 100;
+    texture[0].img_ptr = mlx_xpm_file_to_image(mlx, "src/north.xpm", &texture[0].width, &texture[0].height);
+    texture[0].data = (int *)mlx_get_data_addr(texture[0].img_ptr, &texture[0].bpp, &texture[0].size_line, &texture[0].endian);
+    texture[1].height = 100;
+    texture[1].width = 100;
+    texture[1].img_ptr = mlx_xpm_file_to_image(mlx, "src/south.xpm", &texture[1].width, &texture[1].height);
+    texture[1].data = (int *)mlx_get_data_addr(texture[1].img_ptr, &texture[1].bpp, &texture[1].size_line, &texture[1].endian);
+    texture[2].height = 100;
+    texture[2].width = 100;
+    texture[2].img_ptr = mlx_xpm_file_to_image(mlx, "src/east.xpm", &texture[2].width, &texture[2].height);
+    texture[2].data = (int *)mlx_get_data_addr(texture[2].img_ptr, &texture[2].bpp, &texture[2].size_line, &texture[2].endian);
+    texture[3].height = 100;
+    texture[3].width = 100;
+    texture[3].img_ptr = mlx_xpm_file_to_image(mlx, "src/west.xpm", &texture[3].width, &texture[3].height);
+    texture[3].data = (int *)mlx_get_data_addr(texture[3].img_ptr, &texture[3].bpp, &texture[3].size_line, &texture[3].endian);
+
+    get_color_px(dt, img, texture);
 }

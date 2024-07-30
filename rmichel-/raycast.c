@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:49:12 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/29 15:24:50 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/30 08:20:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_pos	calc_dir_ray(int x, t_pos dir, t_pos plane)
     xf = (float)(x);
     wf = (float)(WIDTH);
 	cam_rel = 2 * xf / wf - 1.0;
-    printf("Hey cam_rel = %f", cam_rel);
+    //printf("Hey cam_rel = %f", cam_rel);
     ray.x = dir.x + (plane.x * cam_rel);
     ray.y = dir.y + (plane.y * cam_rel);
     return (ray);
@@ -35,90 +35,77 @@ float	absf(float nb)
     return (nb);
 }
 
-int	dda(t_pos *side_dist, t_pos delta, t_pos *floored, t_pos *step)
+int	dda(t_math_dt *dt)
 {
     char	**map;
-    int		side;
-
+    
     map = handle_map('g', NULL);
     while (1)
     {
-        if ((*side_dist).x < (*side_dist).y)
+        if (dt->side_dist.x < dt->side_dist.y)
         {
-            (*side_dist).x += delta.x;
-            (*floored).x += (*step).x;
-            side = 0;
+            dt->side_dist.x += dt->delta.x;
+            dt->floored.x += dt->step.x;
+            dt->side = 0;
         }
         else
         {
-            (*side_dist).y += delta.y;
-            (*floored).y += (*step).y;
-            side = 1;
+            dt->side_dist.y += dt->delta.y;
+            dt->floored.y += dt->step.y;
+            dt->side = 1;
         }
-        printf("Hey x = %d and y = %d\n", (int)((*floored).x), (int)((*floored).y));
-        if (map[(int)((*floored).y)][(int)((*floored).x)] == '1')
+        //printf("Hey x = %d and y = %d\n", (int)(dt->floored.x), (int)(dt->floored.y));
+        if (map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '1')
         {
-            //printf("Hey, c = %c", map[(int)(floored.y)][(int)(floored.x)]);
+            ////printf("Hey, c = %c", map[(int)(floored.y)][(int)(floored.x)]);
             break ;
         }
     }
-    return (side);
+    return (dt->side);
 }
 
 
-int   launch_ray(t_pos player, t_pos dir_ray, t_pos *side_dist, int *side)
+int   launch_ray(t_math_dt *dt)
 {
-    t_pos	floored;
-    t_pos	delta;
-    t_pos	step;
-    t_pos	vec[4];
-
-    floored.x = (float)((int)(player.x));
-    floored.y = (float)((int)(player.y));
-    printf("Hoy: player.x = %f and floored.x = %f\n", player.x, floored.x);
-    delta.x = absf(1/dir_ray.x);
-    delta.y = absf(1/dir_ray.y);
-    side_dist = init_side(dir_ray, player, floored, delta);
-    step = init_step(dir_ray);
-    *side = dda(side_dist, delta, &floored, &step);
-    vec[0] = floored;
-    vec[1] = delta;
-    vec[2] = step;
-    vec[3] = *side_dist;
-    return (calc_height(vec, *side, player, dir_ray));
+    dt->floored.x = (float)((int)(dt->player.x));
+    dt->floored.y = (float)((int)(dt->player.y));
+    //printf("Hoy: player.x = %f and floored.x = %f\n", dt->player.x, dt->floored.x);
+    dt->delta.x = absf(1/dt->dir_ray.x);
+    dt->delta.y = absf(1/dt->dir_ray.y);
+    dt->side_dist = init_side(dt->dir_ray, dt->player, dt->floored, dt->delta);
+    dt->step = init_step(dt->dir_ray);
+    dt->side = dda(dt);
+    return (calc_height(dt));
 }
 
-void	raycast(t_pos player, t_pos dir_cam, t_pos plane_cam, void *mlx, void *win)
+void	raycast(t_math_dt *dt, void *mlx, void *win)
 {
-    int		x;
-    t_pos	dir_ray;
-    int		wall;
-    int		to_draw[2];
-    void	*img;
-    t_pos	side_dist;
-    int		side;
+    t_img	img;
 
-    side_dist.x = 0.0;
-    side_dist.y = 0.0;
-    img = mlx_new_image(mlx, 640, 480);
-    x = -1;
-    while (++x < WIDTH)
+    img.width = WIDTH;
+    img.height = HEIGHT;
+    img.img_ptr = mlx_new_image(mlx, 640, 480);
+    img.data =  (int *)mlx_get_data_addr(img.img_ptr, &img.bpp, &img.size_line, &img.endian);
+    dt->x = -1;
+    while (++(dt->x) < WIDTH)
     {
-        printf("Hey x = %d\n", x);
-        dir_ray = calc_dir_ray(x, dir_cam, plane_cam);
-        wall = launch_ray(player, dir_ray, &side_dist, &side);
-        printf("Hey wall = %d\n", wall);
-        to_draw[0] = (-1 * wall) / 2 + HEIGHT / 2;
-        if (to_draw[1] >= HEIGHT)
-            to_draw[1] = HEIGHT;
-        to_draw[1] = wall / 2 + HEIGHT / 2;
-        if (to_draw[0] < 0)
-            to_draw[0] = 0;
-        printf("Hey td0 = %d and td1 = %d\n", to_draw[0], to_draw[1]);
-        create_img(to_draw, x, &img, side_dist, side, mlx);
+        //printf("Hey x = %d\n", dt->x);
+        dt->dir_ray = calc_dir_ray(dt->x, dt->dir_cam, dt->plane_cam);
+        dt->lineh = launch_ray(dt);
+        //printf("Hey wall = %d\n", dt->lineh);
+        dt->to_draw[0] = (-1 * dt->lineh) / 2 + HEIGHT / 2;
+        if (dt->to_draw[0] < 0)
+            dt->to_draw[0] = 0;
+        dt->to_draw[1] = dt->lineh / 2 + HEIGHT / 2;
+        if (dt->to_draw[1] >= HEIGHT)
+            dt->to_draw[1] = HEIGHT;
+        //printf("Hey td0 = %d and td1 = %d\n", dt->to_draw[0], dt->to_draw[1]);
+        create_img(dt, &img, mlx);
     }
-    mlx_put_image_to_window(mlx, win, img, 0, 0);
+    mlx_put_image_to_window(mlx, win, img.img_ptr, 0, 0);
+    mlx_destroy_image(mlx, img.img_ptr);
 }
+#include <unistd.h>
 
 int main(void)
 {
@@ -128,7 +115,7 @@ int main(void)
     t_pos plane_cam;
     void *mlx;
     void *win;
-
+    t_math_dt dt;
     map = malloc(sizeof(char *) * 7);
     map[0] = "1111111111";
     map[1] = "101P010001";
@@ -140,12 +127,24 @@ int main(void)
     handle_map('p', map);
     mlx = mlx_init();
     win = mlx_new_window(mlx, 640, 480, "Test");
-    player.x = 2.2;
-    player.y = 1.77;
-    dir_cam.x = 0.707;
-    dir_cam.y = 0.707;
-    plane_cam.x = -0.707;
-    plane_cam.y = 0.707;
-    raycast(player, dir_cam, plane_cam, mlx, win);
+    dt.player.x = 2.2;
+    dt.player.y = 1.77;
+    dt.dir_cam.x = 0.707;
+    dt.dir_cam.y = 0.707;
+    dt.plane_cam.x = -0.707;
+    dt.plane_cam.y = 0.850;
+    raycast(&dt, mlx, win);
+    //usleep(1000000);
+    dt.dir_cam.x = -0.707;
+    dt.dir_cam.y = 0.707;
+    dt.plane_cam.x = -0.707;
+    dt.plane_cam.y = -0.707;
+    raycast(&dt, mlx, win);
+    //usleep(1000000);
+    dt.dir_cam.x = 0.707;
+    dt.dir_cam.y = -0.707;
+    dt.plane_cam.x = 0.707;
+    dt.plane_cam.y = 0.707;
+    raycast(&dt, mlx, win);
     mlx_loop(mlx);
 }

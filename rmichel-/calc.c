@@ -1,15 +1,12 @@
 #include "cube3d.h"
 
-int calc_height(t_pos vec[], int side, t_pos player, t_pos dir_ray)
+int calc_height(t_math_dt *dt)
 {
-    float	wall_dist;
-    int		lineh;
-
-    if (side == 0)
-        wall_dist = ((vec[0].x - player.x + (1.0 - vec[2].x) / 2.0) / dir_ray.x);
+    if (dt->side == 0)
+        dt->wall_dist = ((dt->floored.x - dt->player.x + (1.0 - dt->step.x) / 2.0) / dt->dir_ray.x);
     else
-        wall_dist = ((vec[0].y - player.y + (1.0 - vec[2].y) / 2.0) / dir_ray.y);
-    printf("Hey wall_dist = %f\n", wall_dist);
-    lineh = (int)(HEIGHT/wall_dist);
-    return (lineh);
+        dt->wall_dist = ((dt->floored.y - dt->player.y + (1.0 - dt->step.y) / 2.0) / dt->dir_ray.y);
+    //printf("Hey wall_dist = %f\n", dt->wall_dist);
+    dt->lineh = (int)(HEIGHT/dt->wall_dist);
+    return (dt->lineh);
 }
