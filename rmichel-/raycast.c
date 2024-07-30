@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:49:12 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/30 08:20:24 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/30 15:29:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ float	absf(float nb)
     return (nb);
 }
 
-int	dda(t_math_dt *dt)
+int	dda(t_data *dt)
 {
     char	**map;
     
@@ -65,7 +65,7 @@ int	dda(t_math_dt *dt)
 }
 
 
-int   launch_ray(t_math_dt *dt)
+int   launch_ray(t_data *dt)
 {
     dt->floored.x = (float)((int)(dt->player.x));
     dt->floored.y = (float)((int)(dt->player.y));
@@ -78,16 +78,14 @@ int   launch_ray(t_math_dt *dt)
     return (calc_height(dt));
 }
 
-void	raycast(t_math_dt *dt, void *mlx, void *win)
+void	raycast(t_data *dt, void *mlx, void *win)
 {
-    t_img	img;
-
-    img.width = WIDTH;
-    img.height = HEIGHT;
-    img.img_ptr = mlx_new_image(mlx, 640, 480);
-    img.data =  (int *)mlx_get_data_addr(img.img_ptr, &img.bpp, &img.size_line, &img.endian);
-    dt->x = -1;
-    while (++(dt->x) < WIDTH)
+    dt->img.width = WIDTH;
+    dt->img.height = HEIGHT;
+    dt->img.img_ptr = mlx_new_image(mlx, 640, 480);
+    dt->img.data =  (int *)mlx_get_data_addr(dt->img.img_ptr, &dt->img.bpp, &dt->img.size_line, &dt->img.endian);
+    dt->x = 0;
+    while (dt->x < WIDTH)
     {
         //printf("Hey x = %d\n", dt->x);
         dt->dir_ray = calc_dir_ray(dt->x, dt->dir_cam, dt->plane_cam);
@@ -100,10 +98,43 @@ void	raycast(t_math_dt *dt, void *mlx, void *win)
         if (dt->to_draw[1] >= HEIGHT)
             dt->to_draw[1] = HEIGHT;
         //printf("Hey td0 = %d and td1 = %d\n", dt->to_draw[0], dt->to_draw[1]);
-        create_img(dt, &img, mlx);
+        create_img(dt, &(dt->img), mlx);
+        dt->x += 4;
     }
-    mlx_put_image_to_window(mlx, win, img.img_ptr, 0, 0);
-    mlx_destroy_image(mlx, img.img_ptr);
+    mlx_put_image_to_window(mlx, win, dt->img.img_ptr, 0, 0);
+    mlx_destroy_image(mlx, dt->img.img_ptr);
+}
+
+void	init_player(t_data *data)
+{
+	data->player.x = 3;	
+	data->player.y = 3;	
+	
+	data->corner = M_PI / 2;
+    data->dir_cam.x = cos(data->corner);
+    data->dir_cam.y = sin(data->corner);
+    data->plane_cam.x = -sin(data->corner);
+    data->plane_cam.y = cos(data->corner);
+}
+
+void	create_win()
+{
+	t_data	data;
+	char	**map;
+
+	init_player(&data);
+	data.mlx_ptr = mlx_init();
+	data.win_ptr = mlx_new_window(data.mlx_ptr, 640, 480, "Cub3d");
+	if (data.win_ptr == NULL)
+		exit(1);
+	//create_map(data);
+	(void)map;
+	//img->len = len_map(tab);
+    raycast(&data, data.mlx_ptr, data.win_ptr);
+	//free_tab(tab);
+	mlx_hook(data.win_ptr, 2, 1L << 0, &key_hook, &data);
+	mlx_loop(data.mlx_ptr);
+	exit(0);   
 }
 #include <unistd.h>
 
@@ -113,9 +144,7 @@ int main(void)
     t_pos player;
     t_pos dir_cam;
     t_pos plane_cam;
-    void *mlx;
-    void *win;
-    t_math_dt dt;
+    t_data dt;
     map = malloc(sizeof(char *) * 7);
     map[0] = "1111111111";
     map[1] = "101P010001";
@@ -125,26 +154,28 @@ int main(void)
     map[5] = "1111111111";
     map[6] = NULL;
     handle_map('p', map);
-    mlx = mlx_init();
-    win = mlx_new_window(mlx, 640, 480, "Test");
+    create_win();
+/*/
+    dt.mlx_ptr = mlx_init();
+    dt.win_ptr = mlx_new_window(dt.mlx_ptr, 640, 480, "Test");
     dt.player.x = 2.2;
     dt.player.y = 1.77;
     dt.dir_cam.x = 0.707;
     dt.dir_cam.y = 0.707;
     dt.plane_cam.x = -0.707;
     dt.plane_cam.y = 0.850;
-    raycast(&dt, mlx, win);
+    raycast(&dt, dt.mlx_ptr, dt.win_ptr);
     //usleep(1000000);
     dt.dir_cam.x = -0.707;
     dt.dir_cam.y = 0.707;
     dt.plane_cam.x = -0.707;
     dt.plane_cam.y = -0.707;
-    raycast(&dt, mlx, win);
+    raycast(&dt, dt.mlx_ptr, dt.win_ptr);
     //usleep(1000000);
     dt.dir_cam.x = 0.707;
     dt.dir_cam.y = -0.707;
     dt.plane_cam.x = 0.707;
     dt.plane_cam.y = 0.707;
-    raycast(&dt, mlx, win);
-    mlx_loop(mlx);
+    raycast(&dt, dt.mlx_ptr, dt.win_ptr);
+    mlx_loop(dt.mlx_ptr);*/
 }

@@ -4,11 +4,10 @@
 void apply_texture(t_img *img, t_img *texture, int x_img, int y_img, int x_tex, int y_tex)
 {
     int color = texture->data[y_tex * TEX_WIDTH + x_tex];
-    if (img->data[y_img * img->width + x_img] != color)
-        img->data[y_img * img->width + x_img] = color;
+    img->data[y_img * img->width + x_img] = color;
 }
 
-void get_color_px(t_math_dt *dt, t_img *img, t_img texture[])
+void get_color_px(t_data *dt, t_img *img, t_img texture[])
 {
     float wallx;
     int texx;
@@ -59,11 +58,13 @@ void get_color_px(t_math_dt *dt, t_img *img, t_img texture[])
     }
 }
 
-void create_img(t_math_dt *dt, t_img  *img, void *mlx)
+void create_img(t_data *dt, t_img  *img, void *mlx)
 {
-    static int color = 0xFFFFFF;
+    static int lineh = 0;
     t_img   texture[4];
+    t_data dt2;
 
+    dt2 = *dt;
     texture[0].height = 100;
     texture[0].width = 100;
     texture[0].img_ptr = mlx_xpm_file_to_image(mlx, "src/north.xpm", &texture[0].width, &texture[0].height);
@@ -80,6 +81,44 @@ void create_img(t_math_dt *dt, t_img  *img, void *mlx)
     texture[3].width = 100;
     texture[3].img_ptr = mlx_xpm_file_to_image(mlx, "src/west.xpm", &texture[3].width, &texture[3].height);
     texture[3].data = (int *)mlx_get_data_addr(texture[3].img_ptr, &texture[3].bpp, &texture[3].size_line, &texture[3].endian);
-
     get_color_px(dt, img, texture);
+    if (dt2.x > 0)
+    {
+        dt2.x -= 1;
+        dt2.lineh = (lineh + dt->lineh) / 2;
+        dt2.to_draw[0] = (-1 * dt2.lineh) / 2 + HEIGHT / 2;
+        if (dt2.to_draw[0] < 0)
+            dt2.to_draw[0] = 0;
+        dt2.to_draw[1] = dt2.lineh / 2 + HEIGHT / 2;
+        if (dt2.to_draw[1] >= HEIGHT)
+            dt2.to_draw[1] = HEIGHT;
+        lineh = dt2.lineh;
+        //printf("%d %d\n", d)
+        get_color_px(&dt2, img, texture);
+        dt2.x -= 1;
+        dt2.lineh = (lineh + dt2.lineh) / 2;
+        dt2.to_draw[0] = (-1 * dt2.lineh) / 2 + HEIGHT / 2;
+        if (dt2.to_draw[0] < 0)
+            dt2.to_draw[0] = 0;
+        dt2.to_draw[1] = dt2.lineh / 2 + HEIGHT / 2;
+        if (dt2.to_draw[1] >= HEIGHT)
+            dt2.to_draw[1] = HEIGHT;
+        lineh = dt2.lineh;
+        get_color_px(&dt2, img, texture);
+        dt2.x -= 1  ;
+        dt2.lineh = (lineh + dt2.lineh) / 2;
+        dt2.to_draw[0] = (-1 * dt2.lineh) / 2 + HEIGHT / 2;
+        if (dt2.to_draw[0] < 0)
+            dt2.to_draw[0] = 0;
+        dt2.to_draw[1] = dt2.lineh / 2 + HEIGHT / 2;
+        if (dt2.to_draw[1] >= HEIGHT)
+            dt2.to_draw[1] = HEIGHT;
+        lineh = dt2.lineh;
+        get_color_px(&dt2, img, texture);
+    }
+    lineh = dt->lineh;
+    mlx_destroy_image(mlx, texture[0].img_ptr);
+    mlx_destroy_image(mlx, texture[1].img_ptr);
+    mlx_destroy_image(mlx, texture[2].img_ptr);
+    mlx_destroy_image(mlx, texture[3].img_ptr);
 }
