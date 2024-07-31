@@ -1,18 +1,31 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   init_values.c									  :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: marvin <marvin@student.42.fr>			  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/07/28 12:16:31 by marvin			#+#	#+#			 */
-/*   Updated: 2024/07/28 12:16:31 by marvin		   ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_values.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/31 15:21:24 by rmichel-          #+#    #+#             */
+/*   Updated: 2024/07/31 15:21:24 by rmichel-         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-t_pos   init_side(t_pos dir_ray, t_pos player, t_pos floored, t_pos delta)
+t_img	init_texture(char *f, void *mlx)
+{
+	t_img	texture;
+
+	texture.height = 100;
+	texture.width = 100;
+	texture.img_ptr = mlx_xpm_file_to_image(mlx, f, &texture.width, \
+&texture.height);
+	texture.data = (int *)mlx_get_data_addr(texture.img_ptr, &texture.bpp, \
+&texture.size_line, &texture.endian);
+	return (texture);
+}
+
+t_pos	init_side(t_pos dir_ray, t_pos player, t_pos floored, t_pos delta)
 {
 	t_pos	side_dist;
 
@@ -39,5 +52,5 @@ t_pos	init_step(t_pos dir_ray)
 		step.y = -1.0;
 	else
 		step.y = 1.0;
-	return (step);	
+	return (step);
 }
