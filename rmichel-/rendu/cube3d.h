@@ -60,6 +60,7 @@ typedef struct s_data
 	void			*win_ptr;
 	struct s_img	img;
 //	preset var
+	int				info;
 	int				mul_side;
 	float			corner;
 	t_pos			side_dist;
@@ -82,6 +83,7 @@ typedef struct s_data
 	t_img			so;
 	t_img			wo;
 	t_img			eo;
+	t_img			d_o;
 	t_img			c;
 	t_img			f;
 

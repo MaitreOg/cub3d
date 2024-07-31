@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:13:42 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/07/31 16:15:47 by rmichel-         ###   ########.fr       */
+/*   Updated: 2024/08/01 00:18:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
+
+void    add_color(t_data *dt)
+{
+    int x;
+
+    x = -1;
+    while (++x < WIDTH * HEIGHT / 2)
+        dt->img.data[x] = 0xFF0000;
+    while (++x < WIDTH * HEIGHT)
+        dt->img.data[x] = 0xFF00FF;
+}
 
 t_pos	calc_dir_ray(int x, t_pos dir, t_pos plane)
 {
@@ -51,8 +62,14 @@ int	dda(t_data *dt)
 			dt->floored.y += dt->step.y;
 			dt->side = 1;
 		}
-		if (map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '1')
+		if (map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '1' || map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '3')
+		{
+			if (map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '1')
+				dt->info = 1;
+			else
+				dt->info = 3;
 			break ;
+		}
 	}
 	return (dt->side);
 }
@@ -76,6 +93,7 @@ void	raycast(t_data *dt, void *mlx, void *win)
 	dt->img.img_ptr = mlx_new_image(mlx, 640, 480);
 	dt->img.data = (int *)mlx_get_data_addr(dt->img.img_ptr, &dt->img.bpp, \
 &dt->img.size_line, &dt->img.endian);
+	add_color(dt);
 	dt->x = 0;
 	while (dt->x < WIDTH)
 	{

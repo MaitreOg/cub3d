@@ -132,7 +132,7 @@ int check_e(char **map, int x, int y)
 		return (printf("%d %d : %c\n", y, x, map[x][y]), 1);
 	if (map[x] == NULL || map[x][y] == '\0')
 		return (printf("%d %d : %c\n", y, x, map[x][y]), 1);
-	if (map[x][y] != '1' && map[x][y] != '0' && map[x][y] != 'N' && map[x][y] != 'S' && map[x][y] != 'E' && map[x][y] != 'W')
+	if (map[x][y] != '1' && map[x][y] != '0' && map[x][y] != 'N' && map[x][y] != 'S' && map[x][y] != 'E' && map[x][y] != 'W' && map[x][y] != '3')
 		return (printf("%d %d : %c\n", y, x, map[x][y]), 1);
 	return (0);
 }
