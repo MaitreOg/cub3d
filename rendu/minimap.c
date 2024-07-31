@@ -77,7 +77,22 @@ void    draw_player(t_data *data)
 
 void draw_view_minimap(t_data *data)
 {
-	
+	int begin_x;
+	int	begin_y;
+	int i;
+
+	begin_x = 0;
+	begin_y = 0;
+	i = 0;
+	while (i < 10)
+	{
+		begin_x = cos(data->corner) * i;
+		begin_y = sin(data->corner) * i;
+		begin_x = (begin_x + data->player.x) * data->mul_side / 5;
+		begin_x = (begin_y + data->player.y) * data->mul_side / 5;
+		ft_mlx_pixel_put(data, begin_x, begin_y, 0x00FF00);
+		i++;
+ 	}
 }
 void	draw_minimap(t_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:49:12 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/30 15:29:13 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/30 22:15:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	dda(t_data *dt)
 {
     char	**map;
     
-    map = handle_map('g', NULL);
+    map = dt->map;
     while (1)
     {
         if (dt->side_dist.x < dt->side_dist.y)
@@ -105,28 +105,3 @@ void	raycast(t_data *dt, void *mlx, void *win)
     mlx_put_image_to_window(mlx, win, dt->img.img_ptr, 0, 0);
     mlx_destroy_image(mlx, dt->img.img_ptr);
 }
-
-
-/*/
-    dt.mlx_ptr = mlx_init();
-    dt.win_ptr = mlx_new_window(dt.mlx_ptr, 640, 480, "Test");
-    dt.player.x = 2.2;
-    dt.player.y = 1.77;
-    dt.dir_cam.x = 0.707;
-    dt.dir_cam.y = 0.707;
-    dt.plane_cam.x = -0.707;
-    dt.plane_cam.y = 0.850;
-    raycast(&dt, dt.mlx_ptr, dt.win_ptr);
-    //usleep(1000000);
-    dt.dir_cam.x = -0.707;
-    dt.dir_cam.y = 0.707;
-    dt.plane_cam.x = -0.707;
-    dt.plane_cam.y = -0.707;
-    raycast(&dt, dt.mlx_ptr, dt.win_ptr);
-    //usleep(1000000);
-    dt.dir_cam.x = 0.707;
-    dt.dir_cam.y = -0.707;
-    dt.plane_cam.x = 0.707;
-    dt.plane_cam.y = 0.707;
-    raycast(&dt, dt.mlx_ptr, dt.win_ptr);
-    mlx_loop(dt.mlx_ptr);*/
