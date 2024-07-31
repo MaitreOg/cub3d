@@ -30,10 +30,15 @@ void get_color_px(t_data *dt, t_img *img, t_img texture[])
     {
         d = y * 256 - HEIGHT * 128 + dt->lineh * 128;
         texy = ((d * TEX_HEIGHT) / dt->lineh) / 256;
-        if (dt->side == 1)
+       if (dt->side == 1)
             apply_texture(&dt->img, &texture[0 + (dt->dir_ray.y > 0)], dt->x, y, texx, texy);
+        //else if (dt->x >= 320 && dt->side == 1)
+          //  apply_texture(&dt->img, &texture[1], dt->x, y, texx, texy);
         else
+        {
+            //printf("%d\n", dt->dir_cam.x > 0);
             apply_texture(&dt->img, &texture[2 + (dt->dir_ray.x > 0)], dt->x, y, texx, texy);
+        }
         y++;
     }
 }
@@ -73,9 +78,10 @@ void create_img(t_data *dt, t_img  *img, void *mlx)
         if (dt2.to_draw[1] >= HEIGHT)
             dt2.to_draw[1] = HEIGHT;
         lineh = dt2.lineh;
+        //printf("%d %d\n", d)
         get_color_px(&dt2, img, texture);
         dt2.x -= 1;
-        dt2.lineh = (lineh + dt2.lineh) / 2;
+        dt2.lineh = dt->lineh; //(lineh + dt2.lineh) / 2;
         dt2.to_draw[0] = (-1 * dt2.lineh) / 2 + HEIGHT / 2;
         if (dt2.to_draw[0] < 0)
             dt2.to_draw[0] = 0;
@@ -85,7 +91,7 @@ void create_img(t_data *dt, t_img  *img, void *mlx)
         lineh = dt2.lineh;
         get_color_px(&dt2, img, texture);
         dt2.x -= 1  ;
-        dt2.lineh = (lineh + dt2.lineh) / 2;
+        dt2.lineh = lineh; //(lineh + dt2.lineh) / 2;
         dt2.to_draw[0] = (-1 * dt2.lineh) / 2 + HEIGHT / 2;
         if (dt2.to_draw[0] < 0)
             dt2.to_draw[0] = 0;

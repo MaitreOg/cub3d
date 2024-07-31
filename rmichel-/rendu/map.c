@@ -99,39 +99,33 @@ char *ft_strdup(char *str)
     i = 0;
     while(str[i])
         i++;
+    if (i == 0)
+        return (NULL);
     result = malloc(i + 1);
+    if (!result)
+        return (NULL);
     i = -1;
-    while (str[i])
+    while (str[++i])
         result[i] = str[i];
     result[i] = 0;
     return (result);
 }
-char    **create_map(t_data *data)
+char    **create_map(t_data *data, char **parsing, int i)
 {
-    char *line;
-    char *result;
-    int fd;
-    int i;
     int y;
     char **map;
 
-    y = -1;
-    i = 0;
-    result = "\0";
-    fd = open("map.cub", 0);
-    if (!fd)
-        printf("error\n");
-    line = get_next_line(fd);
-    while (line)
+    y = i;
+    while(parsing[y])
+        y++;
+    data->map = malloc(sizeof(char *) * (y - i + 2));
+    y = 0;
+    while (parsing[i])
     {
-        result = ft_strjoin_cub(result, line);
-        line = get_next_line(fd);
+        data->map[y] = ft_strdup(parsing[i]);
+        y++;
         i++;
     }
-    map = ft_split(result, '\n');
-    while (map[++y])
-        printf("%d\t%s\n", y, map[y]);
-    close(fd);
-    //draw_minimap(data);
+    data->map[y] = NULL;
     return (map);
 }

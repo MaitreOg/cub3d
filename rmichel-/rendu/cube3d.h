@@ -2,7 +2,9 @@
 # define CUBE3D_H
 
 # define WIDTH 640
+# define WF 640.0
 # define HEIGHT 480 
+# define H2 240
 # define FOV 1.0472
 # define TEX_WIDTH 100
 # define TEX_HEIGHT 100
@@ -31,24 +33,6 @@ typedef struct s_pos
     float	x;
     float	y;
 } t_pos;
-/*
-typedef struct s_math_dt
-{
-    t_pos	side_dist;
-    t_pos	dir_ray;
-    int		side;
-    t_pos player;
-    t_pos dir_cam;
-    t_pos plane_cam;
-    int		to_draw[2];
-    int		wall;
-    t_pos	floored;
-    t_pos	delta;
-    t_pos	step;
-    float	wall_dist;
-    int		lineh;
-    int     x;
-} t_math_dt; */
 
 typedef struct s_point{
 	float	x;
@@ -80,6 +64,14 @@ typedef struct	s_data {
     int		lineh;
     int     x;
 	char	**map;
+//texture
+    t_img NO;
+    t_img SO;
+    t_img WO;
+    t_img EO;
+    t_img C;
+    t_img F;
+
 }				t_data;
 
 int calc_height(t_data *dt);
@@ -90,7 +82,11 @@ void create_img(t_data *dt, t_img  *img, void *mlx);
 int	key_hook(int keycode, t_data *data);
 void	raycast(t_data *dt, void *mlx, void *win);
 void	ft_mlx_pixel_put(t_data *data, int x, int y, int color);
-char    **create_map(t_data *data);
+char    **create_map(t_data *data, char **parsing, int i);
 void	draw_minimap(t_data *data);
+char    *ft_strdup(char *str);
+void    pars(t_data *data);
+char	**ft_split(char *s, char c);
+char	*ft_strjoin_cub(char *s1, char *s2);
 
 #endif
