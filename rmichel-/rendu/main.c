@@ -20,6 +20,10 @@ void	create_win()
 	init_player(&data);
 	data.mlx_ptr = mlx_init();
 	data.win_ptr = mlx_new_window(data.mlx_ptr, 640, 480, "Cub3d");
+	data.NO = init_texture("src/north.xpm", data.mlx_ptr);
+	data.SO = init_texture("src/south.xpm", data.mlx_ptr);
+	data.WO = init_texture("src/west.xpm", data.mlx_ptr);
+	data.EO = init_texture("src/east.xpm", data.mlx_ptr);
 	if (data.win_ptr == NULL)
 		exit(1);
     pars(&data);

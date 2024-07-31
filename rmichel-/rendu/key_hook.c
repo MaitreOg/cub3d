@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:06:32 by smarty            #+#    #+#             */
-/*   Updated: 2024/07/31 11:11:30 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/31 12:48:47 by rmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ int	key_hook(int keycode, t_data *data)
 	if (keycode == 65307)
 	{
 		//mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
+		mlx_destroy_image(data->mlx_ptr, data->NO.img_ptr);
+		mlx_destroy_image(data->mlx_ptr, data->SO.img_ptr);
+		mlx_destroy_image(data->mlx_ptr, data->EO.img_ptr);
+		mlx_destroy_image(data->mlx_ptr, data->WO.img_ptr);
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 		mlx_destroy_display(data->mlx_ptr);
 		free(data->mlx_ptr);

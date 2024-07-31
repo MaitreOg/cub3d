@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:49:12 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/31 12:03:12 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/31 12:50:30 by rmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	raycast(t_data *dt, void *mlx, void *win)
             dt->to_draw[1] = HEIGHT;
         //printf("Hey td0 = %d and td1 = %d\n", dt->to_draw[0], dt->to_draw[1]);
         create_img(dt, &(dt->img), mlx);
-        dt->x += 4;
+        dt->x += 1;
     }
     draw_minimap(dt);
     mlx_put_image_to_window(mlx, win, dt->img.img_ptr, 0, 0);

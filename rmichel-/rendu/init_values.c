@@ -12,6 +12,16 @@
 
 #include "cube3d.h"
 
+t_img	init_texture(char *f, void *mlx)
+{
+	t_img texture;
+
+	texture.height = 100;
+    texture.width = 100;
+    texture.img_ptr = mlx_xpm_file_to_image(mlx, f, &texture.width, &texture.height);
+    texture.data = (int *)mlx_get_data_addr(texture.img_ptr, &texture.bpp, &texture.size_line, &texture.endian);
+	return (texture);
+}
 t_pos   init_side(t_pos dir_ray, t_pos player, t_pos floored, t_pos delta)
 {
 	t_pos	side_dist;
