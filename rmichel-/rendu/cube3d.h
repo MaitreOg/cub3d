@@ -102,5 +102,14 @@ char	*ft_strdup(char *str);
 void	pars(t_data *data);
 char	**ft_split(char *s, char c);
 char	*ft_strjoin_cub(char *s1, char *s2);
+char	*ft_strtrim(char const *s1, char const *set);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+size_t	ft_strlen(const char *str);
+void	*ft_calloc(size_t nmemb, size_t size);
+void	ft_bzero(void *pt, size_t n);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+void	*ft_memset(void *pt, int c, size_t n);
+void	ft_free(char **tab);
+void	init_player(t_data *data, int x, int y , char c);
 
 #endif

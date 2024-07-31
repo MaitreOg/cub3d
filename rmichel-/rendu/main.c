@@ -6,28 +6,16 @@
 /*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:32:24 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/07/31 16:20:46 by rmichel-         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:43:47 by rmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-void	init_player(t_data *data)
-{
-	data->player.x = 2;
-	data->player.y = 2;
-	data->corner = M_PI / 2;
-	data->dir_cam.x = cos(data->corner);
-	data->dir_cam.y = sin(data->corner);
-	data->plane_cam.x = -sin(data->corner);
-	data->plane_cam.y = cos(data->corner);
-}
-
 void	create_win(void)
 {
 	t_data	data;
 
-	init_player(&data);
 	data.mlx_ptr = mlx_init();
 	data.win_ptr = mlx_new_window(data.mlx_ptr, 640, 480, "Cub3d");
 	data.no = init_texture("src/north.xpm", data.mlx_ptr);

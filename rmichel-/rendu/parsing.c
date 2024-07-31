@@ -6,7 +6,7 @@
 /*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:09:16 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/07/31 16:19:58 by rmichel-         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:40:57 by rmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,44 @@ void	parsing(t_data *data, char *str)
 		keep_texture(data, &str[i]);
 }
 
+void	init_player(t_data *data, int x, int y , char c)
+{
+    printf("direction = %c\n", c);
+	data->player.x = x;	
+	data->player.y = y;	
+	if (c == 'S')
+	    data->corner = M_PI / 2;
+    else if (c == 'N')
+	    data->corner = -M_PI / 2;
+	else if (c == 'W')
+	    data->corner = M_PI;
+	else if (c == 'S')
+	    data->corner = 0;
+    data->dir_cam.x = cos(data->corner);
+    data->dir_cam.y = sin(data->corner);
+    data->plane_cam.x = -sin(data->corner);
+    data->plane_cam.y = cos(data->corner);
+}
+
+void    find_player_pos (t_data *data)
+{
+    int x;
+    int y;
+    int stop;
+
+    y = 0;
+    stop = 1;
+    while(data->map[++y] && stop)
+    {
+        x = -1;
+        while(data->map[y][++x] && stop)
+        {
+            if (data->map[y][x] == 'N' || data->map[y][x] == 'S' || data->map[y][x] == 'W' || data->map[y][x] == 'E')
+                return (init_player(data, x, y, data->map[y][x]));           
+        }
+    }
+}
+
 void	pars(t_data *data)
 {
 	int		fd;
@@ -120,6 +158,18 @@ void	pars(t_data *data)
 			if (skip_line(env[i]) == 2)
 			{
 				create_map(data, env, i);
+				if (data->map == NULL)
+				{
+					mlx_destroy_image(data->mlx_ptr, data->no.img_ptr);
+					mlx_destroy_image(data->mlx_ptr, data->so.img_ptr);
+					mlx_destroy_image(data->mlx_ptr, data->eo.img_ptr);
+					mlx_destroy_image(data->mlx_ptr, data->wo.img_ptr);
+					mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+					mlx_destroy_display(data->mlx_ptr);
+					free(data->mlx_ptr);
+					ft_free(env);
+					exit (EXIT_SUCCESS);
+				}
 				stop = 1;
 				break ;
 			}
@@ -127,4 +177,5 @@ void	pars(t_data *data)
 			i++;
 		}
 	}
+    find_player_pos(data);
 }
