@@ -12,6 +12,15 @@
 
 #include "cube3d.h"
 
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = -1;
+	while(tab[++i])
+		free(tab[i]);
+	free(tab);
+}
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
@@ -59,6 +68,7 @@ void	keep_texture(t_data *data, char *str)
 		param_texture(data, data->c, texture_path);
 	else if (ft_strncmp(str, "F ", 2) == 0)
 		param_texture(data, data->f, texture_path);
+	free(texture_path);
 }
 
 int	skip_line(char *str)
@@ -109,6 +119,7 @@ void	init_player(t_data *data, int x, int y , char c)
     data->plane_cam.x = -sin(data->corner);
     data->plane_cam.y = cos(data->corner);
 	data->mv = 0.05;
+	data->x_mouse = WIDTH / 2;
 }
 
 void    find_player_pos (t_data *data)
@@ -145,11 +156,18 @@ void	pars(t_data *data)
 	if (!fd)
 		printf("error\n");
 	line = get_next_line(fd);
+	i = 0;
 	while (line)
 	{
-		str = ft_strjoin_cub(str, line);
+		if (i > 0)
+			str = ft_strjoin_cub(str, line, 1 , 0);
+		else
+			str = ft_strjoin_cub(str, line, 0 , 0);
+		free(line);
 		line = get_next_line(fd);
+		i++;
 	}
+	free(line);
 	env = ft_split(str, '\n');
 	i = 0;
 	while (env[i] && stop != 1)
@@ -181,5 +199,7 @@ void	pars(t_data *data)
 			i++;
 		}
 	}
+	free_tab(env);
+	free(str);
     find_player_pos(data);
 }

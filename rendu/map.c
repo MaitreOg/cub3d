@@ -83,7 +83,7 @@ int	ft_strlen_cub(char *str)
 	return (i);
 }
 
-char	*ft_strjoin_cub(char *s1, char *s2)
+char	*ft_strjoin_cub(char *s1, char *s2, int a, int b)
 {
 	int		i;
 	int		j;
@@ -100,9 +100,13 @@ char	*ft_strjoin_cub(char *s1, char *s2)
 		j++;
 	}
 	i = 0;
+	if (a == 1)
+		free(s1);
 	while (s2[i])
 		str[j++] = s2[i++];
 	str[j] = 0;
+	if (a == 2)
+		free(s2);
 	return (str);
 }
 
@@ -173,7 +177,7 @@ char	**create_map(t_data *data, char **parsing, int i)
 	y = 0;
 	while (parsing[i])
 	{
-		str = ft_strtrim(parsing[i], " ");
+		//str = ft_strtrim(parsing[i], " ");
 		data->map[y] = ft_strdup(parsing[i]);
 		y++;
 		i++;

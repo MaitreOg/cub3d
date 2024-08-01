@@ -116,7 +116,7 @@ void	draw_minimap(t_data *data);
 char	*ft_strdup(char *str);
 void	pars(t_data *data);
 char	**ft_split(char *s, char c);
-char	*ft_strjoin_cub(char *s1, char *s2);
+char	*ft_strjoin_cub(char *s1, char *s2, int a, int b);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *str);
@@ -138,5 +138,6 @@ void	preset_door(t_data *data);
 void	closing_door(t_data *data, float x, float y);
 void	open_door(t_data *data, float x, float y);
 int		test_block(t_data *data, float backup_x, float backup_y);
+void	free_tab(char **tab);
 
 #endif

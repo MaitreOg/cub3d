@@ -95,9 +95,11 @@ int key_pressed(int keycode, t_data *dt)
 		mlx_destroy_image(dt->mlx_ptr, dt->so.img_ptr);
 		mlx_destroy_image(dt->mlx_ptr, dt->eo.img_ptr);
 		mlx_destroy_image(dt->mlx_ptr, dt->wo.img_ptr);
+		mlx_destroy_image(dt->mlx_ptr, dt->d_o.img_ptr);
 		mlx_destroy_window(dt->mlx_ptr, dt->win_ptr);
 		mlx_destroy_display(dt->mlx_ptr);
 		free(dt->mlx_ptr);
+        free_tab(dt->map);
 		exit (EXIT_SUCCESS);
 	}
     if (keycode == 122 || keycode == 119)
