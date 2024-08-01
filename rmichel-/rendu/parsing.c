@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:09:16 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/01 00:51:57 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/01 06:54:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ void	parsing(t_data *data, char *str)
 void	init_player(t_data *data, int x, int y , char c)
 {
     printf("direction = %c\n", c);
-	data->player.x = x;	
-	data->player.y = y;	
+	data->player.x = x + 0.2;	
+	data->player.y = y + 0.2;	
 	if (c == 'S')
 	    data->corner = M_PI / 2;
     else if (c == 'N')

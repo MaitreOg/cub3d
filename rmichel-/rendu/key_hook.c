@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:27:15 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/07/31 16:20:26 by rmichel-         ###   ########.fr       */
+/*   Updated: 2024/08/01 06:51:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	test_block(t_data *data, float backup_x, float backup_y)
 	int	end_x;
 	int	end_y;
 
-	end_x = (int)floor(backup_x);
-	end_y = (int)floor(backup_y);
+	end_x = (int)floor(backup_x - 0.2);
+	end_y = (int)floor(backup_y - 0.2);
 	if (data->map[end_y][end_x] == '1' || !data->map[end_y][end_x])
 		return (1);
 	return (0);
