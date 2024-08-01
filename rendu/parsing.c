@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:09:16 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/07/31 16:19:58 by rmichel-         ###   ########.fr       */
+/*   Updated: 2024/08/01 06:54:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,15 @@ void	keep_texture(t_data *data, char *str)
 		i++;
 	texture_path = ft_strdup(&str[i]);
 	if (ft_strncmp(str, "NO ", 3) == 0)
-		param_texture(data, data->no, texture_path);
+		data->no = init_texture(texture_path, data->mlx_ptr);
 	else if (ft_strncmp(str, "SO ", 3) == 0)
-		param_texture(data, data->so, texture_path);
+		data->so = init_texture(texture_path, data->mlx_ptr);
 	else if (ft_strncmp(str, "WO ", 3) == 0)
-		param_texture(data, data->wo, texture_path);
+		data->wo = init_texture(texture_path, data->mlx_ptr);
 	else if (ft_strncmp(str, "EO ", 3) == 0)
-		param_texture(data, data->eo, texture_path);
+		data->eo = init_texture(texture_path, data->mlx_ptr);
+	else if (ft_strncmp(str, "DO ", 3) == 0)
+		data->d_o = init_texture(texture_path, data->mlx_ptr);
 	else if (ft_strncmp(str, "C ", 2) == 0)
 		param_texture(data, data->c, texture_path);
 	else if (ft_strncmp(str, "F ", 2) == 0)
@@ -83,15 +85,17 @@ void	parsing(t_data *data, char *str)
 	if (ft_strncmp(&str[i], "NO", 2) == 0 || ft_strncmp(&str[i], "SO", 2) == 0
 		|| ft_strncmp(&str[i], "WO", 2) == 0
 		|| ft_strncmp(&str[i], "EO", 2) == 0
+		|| ft_strncmp(&str[i], "DO", 2) == 0
 		|| ft_strncmp(&str[i], "C", 2) == 0
 		|| ft_strncmp(&str[i], "F", 2) == 0)
 		keep_texture(data, &str[i]);
 }
+
 void	init_player(t_data *data, int x, int y , char c)
 {
     printf("direction = %c\n", c);
-	data->player.x = x;	
-	data->player.y = y;	
+	data->player.x = x + 0.2;	
+	data->player.y = y + 0.2;	
 	if (c == 'S')
 	    data->corner = M_PI / 2;
     else if (c == 'N')
@@ -104,6 +108,7 @@ void	init_player(t_data *data, int x, int y , char c)
     data->dir_cam.y = sin(data->corner);
     data->plane_cam.x = -sin(data->corner);
     data->plane_cam.y = cos(data->corner);
+	data->mv = 0.05;
 }
 
 void    find_player_pos (t_data *data)
@@ -124,6 +129,7 @@ void    find_player_pos (t_data *data)
         }
     }
 }
+
 void	pars(t_data *data)
 {
 	int		fd;
@@ -156,6 +162,18 @@ void	pars(t_data *data)
 			if (skip_line(env[i]) == 2)
 			{
 				create_map(data, env, i);
+				if (data->map == NULL)
+				{
+					mlx_destroy_image(data->mlx_ptr, data->no.img_ptr);
+					mlx_destroy_image(data->mlx_ptr, data->so.img_ptr);
+					mlx_destroy_image(data->mlx_ptr, data->eo.img_ptr);
+					mlx_destroy_image(data->mlx_ptr, data->wo.img_ptr);
+					mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+					mlx_destroy_display(data->mlx_ptr);
+					free(data->mlx_ptr);
+					ft_free(env);
+					exit (EXIT_SUCCESS);
+				}
 				stop = 1;
 				break ;
 			}

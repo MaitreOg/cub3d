@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:27:15 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/07/31 16:20:26 by rmichel-         ###   ########.fr       */
+/*   Updated: 2024/08/01 06:51:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,19 @@ int	test_block(t_data *data, float backup_x, float backup_y)
 
 	end_x = (int)floor(backup_x);
 	end_y = (int)floor(backup_y);
+	if (data->map[end_y][end_x] == '2' || !data->map[end_y][end_x])
+		return (2);
 	if (data->map[end_y][end_x] == '1' || !data->map[end_y][end_x])
 		return (1);
+	if (data->map[end_y][end_x] == '3' || !data->map[end_y][end_x])
+		return (3);
 	return (0);
 }
 
 int	key_hook(int keycode, t_data *data)
 {
+	float backup_x;
+	float backup_y;
 	if (keycode == 65307)
 	{
 		mlx_destroy_image(data->mlx_ptr, data->no.img_ptr);
@@ -58,41 +64,48 @@ int	key_hook(int keycode, t_data *data)
 	}
 	else if (keycode == 122 || keycode == 119)
 	{
-		if (test_block(data, (data->player.x + cos(data->corner) * 0.05), \
-		(data->player.y + sin(data->corner) * 0.05)) == 0)
+		if (up_move(data) == 0)
 		{
-			data->player.x += cos(data->corner) * 0.05;
-			data->player.y += sin(data->corner) * 0.05;
+			backup_x = data->player.x;
+			backup_y = data->player.y;
+			data->player.x += cos(data->corner) * data->mv;
+			data->player.y += sin(data->corner) * data->mv;
+			closing_door(data , backup_x, backup_y);
 			raycast(data, data->mlx_ptr, data->win_ptr);
 		}
 	}
 	else if (keycode == 100)
 	{
-		if (test_block(data, data->player.x + cos(data->corner + M_PI / 2) * \
-		0.05, data->player.y + sin(data->corner + M_PI / 2) * 0.05) == 0)
+		if (right_move(data) == 0)
 		{
-			data->player.x += cos(data->corner + M_PI / 2) * 0.05;
-			data->player.y += sin(data->corner + M_PI / 2) * 0.05;
+			backup_x = data->player.x;
+			backup_y = data->player.y;
+			data->player.x += cos(data->corner + M_PI / 2) * data->mv;
+			data->player.y += sin(data->corner + M_PI / 2) * data->mv;
+			closing_door(data , backup_x, backup_y);
 			raycast(data, data->mlx_ptr, data->win_ptr);
 		}
 	}
 	else if (keycode == 97 || keycode == 113)
 	{
-		if (test_block(data, data->player.x + cos(data->corner - M_PI / 2) * \
-		0.05, data->player.y + sin(data->corner - M_PI / 2) * 0.05) == 0)
+		if (left_move(data) == 0)
 		{
-			data->player.x += cos(data->corner - M_PI / 2) * 0.05;
-			data->player.y += sin(data->corner - M_PI / 2) * 0.05;
+			backup_x = data->player.x;
+			backup_y = data->player.y;
+			data->player.x += cos(data->corner - M_PI / 2) * data->mv;
+			data->player.y += sin(data->corner - M_PI / 2) * data->mv;
+			closing_door(data , backup_x, backup_y);
 			raycast(data, data->mlx_ptr, data->win_ptr);
 		}
 	}
 	else if (keycode == 115)
 	{
-		if (test_block(data, data->player.x - cos(data->corner) * 0.05, \
-		data->player.y - sin(data->corner) * 0.05) == 0)
+		if (down_move(data) == 0)
 		{
-			data->player.x -= cos(data->corner) * 0.05;
-			data->player.y -= sin(data->corner) * 0.05;
+			backup_x = data->player.x;
+			backup_y = data->player.y;data->player.x -= cos(data->corner) * data->mv;
+			data->player.y -= sin(data->corner) * data->mv;
+			closing_door(data , backup_x, backup_y);
 			raycast(data, data->mlx_ptr, data->win_ptr);
 		}
 	}

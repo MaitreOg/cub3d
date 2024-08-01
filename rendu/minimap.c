@@ -122,6 +122,10 @@ void	draw_minimap(t_data *data)
 		{
 			if (data->map[y][x] == '1')
 				draw_cub_1(data, x, y, 0xFFFFFF);
+			if (data->map[y][x] == '2')
+				draw_cub_1(data, x, y, 0xFF0000);
+			if (data->map[y][x] == '3')
+				draw_cub_1(data, x, y, 0x0000FF);
 			else if (data->map[y][x] == '0')
 				draw_cub_0(data, x, y, 0xFFFFFF);
 			x++;
@@ -131,3 +135,4 @@ void	draw_minimap(t_data *data)
 	draw_player(data);
 	draw_view_minimap(data);
 }
+
