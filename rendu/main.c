@@ -28,7 +28,6 @@ int	close_window(t_data *dt)
 
 int	mouse_move_handler(int x, int y, t_data *data)
 {
-	printf("%d %d\n", x, y);
 	if (x < data->x_mouse)
 	{
 		data->corner -= 0.03;
@@ -51,7 +50,7 @@ int	mouse_move_handler(int x, int y, t_data *data)
 	return (0);
 }
 
-void	create_win(void)
+void	create_win(char **av)
 {
 	t_data	data;
 
@@ -65,7 +64,7 @@ void	create_win(void)
 	data.keys.rright = 0;
 	if (data.win_ptr == NULL)
 		exit(1);
-	pars(&data);
+	pars(&data, av);
 	raycast(&data, data.mlx_ptr, data.win_ptr);
 	mlx_hook(data.win_ptr, 2, 1L << 0, &key_pressed, &data);
 	mlx_hook(data.win_ptr, 3, 1L << 1, &key_release, &data);
@@ -76,7 +75,13 @@ void	create_win(void)
 	exit(0);
 }
 
-int	main(void)
+int	main(int ac, char **av)
 {
-	create_win();
+	if (ac != 2)
+	{
+		printf("error\n");
+		return (0);
+	}
+	create_win(av);
+	return (0);
 }

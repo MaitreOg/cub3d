@@ -97,8 +97,8 @@ typedef struct s_data
 	t_img			wo;
 	t_img			eo;
 	t_img			d_o;
-	int			c;
-	int			f;
+	int				c;
+	int				f;
 
 }				t_data;
 
@@ -114,7 +114,7 @@ void	ft_mlx_pixel_put(t_data *data, int x, int y, int color);
 char	**create_map(t_data *data, char **parsing, int i);
 void	draw_minimap(t_data *data);
 char	*ft_strdup(char *str);
-void	pars(t_data *data);
+void	pars(t_data *data, char **av);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char *s, char c);
 char	*ft_strjoin_cub(char *s1, char *s2, int a, int b);
@@ -127,15 +127,15 @@ char	*ft_strdup(char *str);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memset(void *pt, int c, size_t n);
 void	ft_free(char **tab);
-void	init_player(t_data *data, int x, int y , char c);
+void	init_player(t_data *data, int x, int y, char c);
 int		update(t_data *data);
 int		key_pressed(int keycode, t_data *dt);
 int		key_release(int keycode, t_data *dt);
 int		test_block(t_data *data, float backup_x, float backup_y);
-int 	up_move(t_data *data);
-int 	down_move(t_data *data);
-int 	left_move(t_data *data);
-int 	right_move(t_data *data);
+int		up_move(t_data *data);
+int		down_move(t_data *data);
+int		left_move(t_data *data);
+int		right_move(t_data *data);
 void	preset_door(t_data *data);
 void	closing_door(t_data *data, float x, float y);
 void	open_door(t_data *data, float x, float y);
@@ -153,6 +153,4 @@ void	param_texture(t_data *data, t_img texture, char *texture_path);
 void	keep_texture(t_data *data, char *str);
 int		skip_line(char *str);
 void	key_destroyed(t_data *dt);
-
-
 #endif

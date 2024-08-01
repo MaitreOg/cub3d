@@ -79,7 +79,6 @@ void	pars_env(t_data *data, char *str)
 	i = 0;
 	while (env[i] && stop != 1)
 	{
-		printf("%s\n", env[i]);
 		if (skip_line(env[i]) != 1)
 		{
 			if (skip_line(env[i]) == 2)
@@ -97,7 +96,7 @@ void	pars_env(t_data *data, char *str)
 	free_tab(env);
 }
 
-void	pars(t_data *data)
+void	pars(t_data *data, char **av)
 {
 	int		fd;
 	char	*line;
@@ -105,7 +104,7 @@ void	pars(t_data *data)
 	int		i;
 
 	str = "\0";
-	fd = open("map.cub", 0);
+	fd = open(av[1], 0);
 	if (!fd)
 		printf("error\n");
 	line = get_next_line(fd);
