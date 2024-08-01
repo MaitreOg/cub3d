@@ -47,7 +47,7 @@ int	test_block(t_data *data, float backup_x, float backup_y)
 	return (0);
 }
 
-int	key_hook(int keycode, t_data *data)
+/*int	key_hook(int keycode, t_data *data)
 {
 	float backup_x;
 	float backup_y;
@@ -103,7 +103,7 @@ int	key_hook(int keycode, t_data *data)
 		if (down_move(data) == 0)
 		{
 			backup_x = data->player.x;
-			backup_y = data->player.y;data->player.x -= cos(data->corner) * data->mv;
+	backup_y = data->player.y;data->player.x -= cos(data->corner) * data->mv;
 			data->player.y -= sin(data->corner) * data->mv;
 			closing_door(data , backup_x, backup_y);
 			raycast(data, data->mlx_ptr, data->win_ptr);
@@ -128,4 +128,4 @@ int	key_hook(int keycode, t_data *data)
 		raycast(data, data->mlx_ptr, data->win_ptr);
 	}
 	return (0);
-}
+}*/

@@ -48,22 +48,14 @@ void	draw_cub_0(t_data *data, int x, int y, int color)
 	while (x < backup_x + side)
 	{
 		ft_mlx_pixel_put(data, x, y, color);
+		ft_mlx_pixel_put(data, x, y + side, color);
 		x++;
 	}
 	while (y < backup_y + side)
 	{
 		ft_mlx_pixel_put(data, x, y, color);
+		ft_mlx_pixel_put(data, x + side, y, color);
 		y++;
-	}
-	while (x > backup_x)
-	{
-		ft_mlx_pixel_put(data, x, y, color);
-		x--;
-	}
-	while (y > backup_y)
-	{
-		ft_mlx_pixel_put(data, x, y, color);
-		y--;
 	}
 }
 
@@ -123,9 +115,9 @@ void	draw_minimap(t_data *data)
 			if (data->map[y][x] == '1')
 				draw_cub_1(data, x, y, 0xFFFFFF);
 			if (data->map[y][x] == '2')
-				draw_cub_1(data, x, y, 0xFF0000);
+				draw_cub_1(data, x, y, 0xAAAAAA);
 			if (data->map[y][x] == '3')
-				draw_cub_1(data, x, y, 0x0000FF);
+				draw_cub_0(data, x, y, 0xAAAAAA);
 			else if (data->map[y][x] == '0')
 				draw_cub_0(data, x, y, 0xFFFFFF);
 			x++;
@@ -135,4 +127,3 @@ void	draw_minimap(t_data *data)
 	draw_player(data);
 	draw_view_minimap(data);
 }
-

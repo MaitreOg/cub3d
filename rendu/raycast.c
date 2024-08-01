@@ -12,15 +12,15 @@
 
 #include "cube3d.h"
 
-void    add_color(t_data *dt)
+void	add_color(t_data *dt)
 {
-    int x;
+	int	x;
 
-    x = -1;
-    while (++x < WIDTH * HEIGHT / 2)
-        dt->img.data[x] = dt->c;
-    while (++x < WIDTH * HEIGHT)
-        dt->img.data[x] = dt->f;
+	x = -1;
+	while (++x < WIDTH * HEIGHT / 2)
+		dt->img.data[x] = dt->c;
+	while (++x < WIDTH * HEIGHT)
+		dt->img.data[x] = dt->f;
 }
 
 t_pos	calc_dir_ray(int x, t_pos dir, t_pos plane)

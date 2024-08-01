@@ -1,138 +1,105 @@
 #include "cube3d.h"
 
-int update(t_data *data)
+int	update2(t_data *data, int pressed)
 {
-    int pressed;
-    float x;
-    float y;
-    pressed = 0;
-    if (data->keys.rleft == 1)
-    {
-        if (pressed < 3)
-        {
-            pressed++;
-		    data->corner -= 0.05;
-    		data->dir_cam.x = cos(data->corner);
-	    	data->dir_cam.y = sin(data->corner);
-		    data->plane_cam.x = -sin(data->corner);
-    		data->plane_cam.y = cos(data->corner);
-	    	raycast(data, data->mlx_ptr, data->win_ptr);
-        }
+	if (data->keys.forward == 1)
+	{
+		pressed++;
+		if (pressed < 3 && up_move(data) == 0)
+			forward(data);
 	}
-    if (data->keys.rright == 1)
-    {
-        if (pressed < 3)
-        {
-            pressed++;
-	    	data->corner += 0.05;
-		    data->dir_cam.x = cos(data->corner);
-    		data->dir_cam.y = sin(data->corner);
-	    	data->plane_cam.x = -sin(data->corner);
-		    data->plane_cam.y = cos(data->corner);
-    		raycast(data, data->mlx_ptr, data->win_ptr);
-        }
+	if (data->keys.move_right == 1)
+	{
+		pressed++;
+		if (pressed < 3 && right_move(data) == 0)
+			mv_right(data);
 	}
-    if (data->keys.forward == 1)
-    {
-        pressed++;
-        if (pressed < 3 && up_move(data) == 0)
-		{
-            x = data->player.x;
-            y = data->player.y;
-			data->player.x += cos(data->corner) * data->mv;
-			data->player.y += sin(data->corner) * data->mv;
-			closing_door(data, x, y);
-            raycast(data, data->mlx_ptr, data->win_ptr);
-		}
-    }
-    if (data->keys.move_right == 1)
-    {
-        pressed++;
-        if (pressed < 3 && right_move(data) == 0)
-		{
-            x = data->player.x;
-            y = data->player.y;
-			data->player.x += cos(data->corner + M_PI / 2) * data->mv;
-			data->player.y += sin(data->corner + M_PI / 2) * data->mv;
-			closing_door(data, x, y);
-            raycast(data, data->mlx_ptr, data->win_ptr);
-		}
-    }
-    if (data->keys.move_left == 1)
-    {
-        pressed++;
+	if (data->keys.move_left == 1)
+	{
+		pressed++;
 		if (pressed < 3 && left_move(data) == 0)
-		{
-            x = data->player.x;
-            y = data->player.y;
-			data->player.x += cos(data->corner - M_PI / 2) * data->mv;
-			data->player.y += sin(data->corner - M_PI / 2) * data->mv;
-            closing_door(data, x, y);
-            raycast(data, data->mlx_ptr, data->win_ptr);
-		}
+			mv_left(data);
 	}
-    if (data->keys.backward == 1)
-    {
-        pressed++;
+	if (data->keys.backward == 1)
+	{
+		pressed++;
 		if (pressed < 3 && down_move(data) == 0)
-		{
-            x = data->player.x;
-            y = data->player.y;
-			data->player.x -= cos(data->corner) * data->mv;
-			data->player.y -= sin(data->corner) * data->mv;
-			closing_door(data, x, y);
-			raycast(data, data->mlx_ptr, data->win_ptr);
-		}
+			backward(data);
 	}
 }
 
-int key_pressed(int keycode, t_data *dt)
+int	update(t_data *data)
 {
-    printf("pressed: %d\n", keycode);
-    if (keycode == 65307)
+	int		pressed;
+
+	pressed = 0;
+	if (data->keys.rleft == 1)
 	{
-		mlx_destroy_image(dt->mlx_ptr, dt->no.img_ptr);
-		mlx_destroy_image(dt->mlx_ptr, dt->so.img_ptr);
-		mlx_destroy_image(dt->mlx_ptr, dt->eo.img_ptr);
-		mlx_destroy_image(dt->mlx_ptr, dt->wo.img_ptr);
-		mlx_destroy_image(dt->mlx_ptr, dt->d_o.img_ptr);
-		mlx_destroy_window(dt->mlx_ptr, dt->win_ptr);
-		mlx_destroy_display(dt->mlx_ptr);
-		free(dt->mlx_ptr);
-        free_tab(dt->map);
+		if (pressed < 3)
+		{
+			pressed++;
+			rleft(data);
+		}
+	}
+	if (data->keys.rright == 1)
+	{
+		if (pressed < 3)
+		{
+			pressed++;
+			rright(data);
+		}
+	}
+	update2(data, pressed);
+}
+
+void	key_destroyed(t_data *dt)
+{
+	mlx_destroy_image(dt->mlx_ptr, dt->no.img_ptr);
+	mlx_destroy_image(dt->mlx_ptr, dt->so.img_ptr);
+	mlx_destroy_image(dt->mlx_ptr, dt->eo.img_ptr);
+	mlx_destroy_image(dt->mlx_ptr, dt->wo.img_ptr);
+	mlx_destroy_image(dt->mlx_ptr, dt->d_o.img_ptr);
+	mlx_destroy_window(dt->mlx_ptr, dt->win_ptr);
+	mlx_destroy_display(dt->mlx_ptr);
+	free(dt->mlx_ptr);
+	free_tab(dt->map);
+}
+
+int	key_pressed(int keycode, t_data *dt)
+{
+	if (keycode == 65307)
+	{
+		key_destroyed(dt);
 		exit (EXIT_SUCCESS);
 	}
-    if (keycode == 122 || keycode == 119)
-        dt->keys.forward = 1;
-    if (keycode == 100)
-        dt->keys.move_right = 1;
-    if (keycode == 97 || keycode == 113)
-        dt->keys.move_left = 1;
-    if (keycode == 115)
-        dt->keys.backward = 1;
-    if (keycode == 65361)
-        dt->keys.rleft = 1;
-    if (keycode == 65363)
-        dt->keys.rright = 1;
-    printf("pressed: %d\npressed: %d\n", dt->keys.rright, dt->keys.rleft);
-    return (0);
+	if (keycode == 122 || keycode == 119)
+		dt->keys.forward = 1;
+	if (keycode == 100)
+		dt->keys.move_right = 1;
+	if (keycode == 97 || keycode == 113)
+		dt->keys.move_left = 1;
+	if (keycode == 115)
+		dt->keys.backward = 1;
+	if (keycode == 65361)
+		dt->keys.rleft = 1;
+	if (keycode == 65363)
+		dt->keys.rright = 1;
+	return (0);
 }
 
-int key_release(int keycode, t_data *dt)
+int	key_release(int keycode, t_data *dt)
 {
-    printf("released: %d", keycode);
-    if (keycode == 122 || keycode == 119)
-        dt->keys.forward = 0;
-    if (keycode == 100)
-        dt->keys.move_right = 0;
-    if (keycode == 97 || keycode == 113)
-        dt->keys.move_left = 0;
-    if (keycode == 115)
-        dt->keys.backward = 0;
-    if (keycode == 65361)
-        dt->keys.rleft = 0;
-    if (keycode == 65363)
-        dt->keys.rright = 0;
-    printf("released: %d : %d\n", keycode, dt->keys.rleft);
-    return (0);
+	if (keycode == 122 || keycode == 119)
+		dt->keys.forward = 0;
+	if (keycode == 100)
+		dt->keys.move_right = 0;
+	if (keycode == 97 || keycode == 113)
+		dt->keys.move_left = 0;
+	if (keycode == 115)
+		dt->keys.backward = 0;
+	if (keycode == 65361)
+		dt->keys.rleft = 0;
+	if (keycode == 65363)
+		dt->keys.rright = 0;
+	return (0);
 }

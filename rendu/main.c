@@ -32,19 +32,19 @@ int	mouse_move_handler(int x, int y, t_data *data)
 	if (x < data->x_mouse)
 	{
 		data->corner -= 0.03;
-    	data->dir_cam.x = cos(data->corner);
+		data->dir_cam.x = cos(data->corner);
 		data->dir_cam.y = sin(data->corner);
 		data->plane_cam.x = -sin(data->corner);
-    	data->plane_cam.y = cos(data->corner);
+		data->plane_cam.y = cos(data->corner);
 		raycast(data, data->mlx_ptr, data->win_ptr);
 	}
 	else
 	{
 		data->corner += 0.03;
-    	data->dir_cam.x = cos(data->corner);
+		data->dir_cam.x = cos(data->corner);
 		data->dir_cam.y = sin(data->corner);
 		data->plane_cam.x = -sin(data->corner);
-    	data->plane_cam.y = cos(data->corner);
+		data->plane_cam.y = cos(data->corner);
 		raycast(data, data->mlx_ptr, data->win_ptr);
 	}
 	data->x_mouse = x;
@@ -70,7 +70,7 @@ void	create_win(void)
 	mlx_hook(data.win_ptr, 2, 1L << 0, &key_pressed, &data);
 	mlx_hook(data.win_ptr, 3, 1L << 1, &key_release, &data);
 	mlx_hook(data.win_ptr, 6, 1L << 6, &mouse_move_handler, &data);
-	mlx_hook(data.win_ptr, 17, 1L<<17, close_window, &data);
+	mlx_hook(data.win_ptr, 17, 1L << 17, close_window, &data);
 	mlx_loop_hook(data.mlx_ptr, update, &data);
 	mlx_loop(data.mlx_ptr);
 	exit(0);

@@ -17,7 +17,7 @@ SRCS =	raycast.c calc.c parsing.c create_img.c \
 		init_values.c map.c key_hook.c minimap.c\
 		ft_strlen.c ft_substr.c ft_strtrim.c ft_memset.c ft_bzero.c ft_memcpy.c ft_calloc.c\
 		main.c	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
-		comb_key.c door.c moov.c
+		comb_key.c comb_key2.c door.c moov.c utils.c utils2.c parsing2.c
 OBJECTS = $(SRCS:.c=.o)
 
 all: $(NAME)
