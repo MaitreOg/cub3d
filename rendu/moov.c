@@ -35,8 +35,8 @@ int down_move(t_data *data)
 
 	add_x = 0.02;
 	add_y = 0.02;
-	x = data->player.x - cos(data->corner) * data->mv;
-	y = data->player.y - sin(data->corner) * data->mv;
+	x = data->player.x - cos(data->corner) * data->mv * 4;
+	y = data->player.y - sin(data->corner) * data->mv * 4;
 	if (test_block(data, x, y) == 2)
 		open_door(data, x, y);
 	if (test_block(data, x, y) == 1)

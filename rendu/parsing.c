@@ -12,6 +12,18 @@
 
 #include "cube3d.h"
 
+int	init_color(t_data *dt, char *str)
+{
+	char **split;
+	int	n;
+	
+	split = ft_split(str, ' ');
+	printf("---> %s\n", split[0]);
+	if (split[0] && split[1] && split[2] && split[3] == NULL)
+		n = ft_atoi(split[0]) * 256 * 256 + ft_atoi(split[1]) * 256 + ft_atoi(split[2]);
+	return (n);
+}
+
 void	free_tab(char **tab)
 {
 	int	i;
@@ -65,9 +77,12 @@ void	keep_texture(t_data *data, char *str)
 	else if (ft_strncmp(str, "DO ", 3) == 0)
 		data->d_o = init_texture(texture_path, data->mlx_ptr);
 	else if (ft_strncmp(str, "C ", 2) == 0)
-		param_texture(data, data->c, texture_path);
+	{
+		printf("HEYYYY\n");
+		data->c = init_color(data, texture_path);
+	}
 	else if (ft_strncmp(str, "F ", 2) == 0)
-		param_texture(data, data->f, texture_path);
+		data->f = init_color(data, texture_path);
 	free(texture_path);
 }
 
@@ -96,8 +111,8 @@ void	parsing(t_data *data, char *str)
 		|| ft_strncmp(&str[i], "WO", 2) == 0
 		|| ft_strncmp(&str[i], "EO", 2) == 0
 		|| ft_strncmp(&str[i], "DO", 2) == 0
-		|| ft_strncmp(&str[i], "C", 2) == 0
-		|| ft_strncmp(&str[i], "F", 2) == 0)
+		|| ft_strncmp(&str[i], "C", 1) == 0
+		|| ft_strncmp(&str[i], "F", 1) == 0)
 		keep_texture(data, &str[i]);
 }
 

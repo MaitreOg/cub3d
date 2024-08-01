@@ -18,9 +18,9 @@ void    add_color(t_data *dt)
 
     x = -1;
     while (++x < WIDTH * HEIGHT / 2)
-        dt->img.data[x] = 0xFF0000;
+        dt->img.data[x] = dt->c;
     while (++x < WIDTH * HEIGHT)
-        dt->img.data[x] = 0xFF00FF;
+        dt->img.data[x] = dt->f;
 }
 
 t_pos	calc_dir_ray(int x, t_pos dir, t_pos plane)

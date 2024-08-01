@@ -97,8 +97,8 @@ typedef struct s_data
 	t_img			wo;
 	t_img			eo;
 	t_img			d_o;
-	t_img			c;
-	t_img			f;
+	int			c;
+	int			f;
 
 }				t_data;
 
@@ -139,5 +139,6 @@ void	closing_door(t_data *data, float x, float y);
 void	open_door(t_data *data, float x, float y);
 int		test_block(t_data *data, float backup_x, float backup_y);
 void	free_tab(char **tab);
+int	ft_atoi(const char *nbr);
 
 #endif
