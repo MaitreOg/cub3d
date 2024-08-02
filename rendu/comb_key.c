@@ -44,6 +44,7 @@ int	update(t_data *data)
 {
 	int		pressed;
 
+	usleep(FRAME);
 	pressed = 0;
 	if (data->keys.rleft == 1)
 	{

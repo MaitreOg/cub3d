@@ -13,6 +13,7 @@
 #ifndef CUBE3D_H
 # define CUBE3D_H
 
+# define FRAME (1000000 / 60)
 # define WIDTH 640
 # define WF 640.0
 # define HEIGHT 480 
