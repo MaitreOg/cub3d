@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:49:23 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/02 12:39:37 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/31 16:56:54 by rmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-
-void	add_color(t_data *dt)
-{
-	int	x;
-
-	x = -1;
-	while (++x < WIDTH * HEIGHT / 2)
-		dt->img.data[x] = dt->c;
-	while (++x < WIDTH * HEIGHT)
-		dt->img.data[x] = dt->f;
-}
 
 size_t	ft_strlen(const char *str)
 {

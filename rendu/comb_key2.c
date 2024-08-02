@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   comb_key2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: smarty <smarty@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 00:33:05 by smarty            #+#    #+#             */
-/*   Updated: 2024/08/02 12:55:29 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/02 00:33:08 by smarty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	mv_right(t_data *data)
 	y = data->player.y;
 	data->player.x += cos(data->corner + M_PI / 2) * data->mv;
 	data->player.y += sin(data->corner + M_PI / 2) * data->mv;
-	closing_door(data, x, y);
 	raycast(data, data->mlx_ptr, data->win_ptr);
 }
 
@@ -54,7 +53,6 @@ void	mv_left(t_data *data)
 	y = data->player.y;
 	data->player.x += cos(data->corner - M_PI / 2) * data->mv;
 	data->player.y += sin(data->corner - M_PI / 2) * data->mv;
-	closing_door(data, x, y);
 	raycast(data, data->mlx_ptr, data->win_ptr);
 }
 
@@ -67,6 +65,5 @@ void	backward(t_data *data)
 	y = data->player.y;
 	data->player.x -= cos(data->corner) * data->mv;
 	data->player.y -= sin(data->corner) * data->mv;
-	closing_door(data, x, y);
 	raycast(data, data->mlx_ptr, data->win_ptr);
 }

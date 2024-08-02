@@ -28,7 +28,7 @@ void	get_color_px2(int y, t_data *dt, int texc[])
 	texc[1] = ((d * TEX_HEIGHT) / dt->lineh) / 256;
 	if (dt->side == 1)
 	{
-		if (dt->info == 2)
+		if (dt->info == 3)
 			apply_texture(dt, &dt->d_o, y, texc);
 		else if (dt->dir_ray.y < 0)
 			apply_texture(dt, &dt->no, y, texc);

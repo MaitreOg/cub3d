@@ -70,6 +70,7 @@ void	create_win(char **av)
 	mlx_hook(data.win_ptr, 3, 1L << 1, &key_release, &data);
 	mlx_hook(data.win_ptr, 6, 1L << 6, &mouse_move_handler, &data);
 	mlx_hook(data.win_ptr, 17, 1L << 17, close_window, &data);
+	mlx_mouse_hook(data.win_ptr, mouse_click_handler, &data);
 	mlx_loop_hook(data.mlx_ptr, update, &data);
 	mlx_loop(data.mlx_ptr);
 	exit(0);

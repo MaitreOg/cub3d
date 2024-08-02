@@ -137,8 +137,6 @@ int		down_move(t_data *data);
 int		left_move(t_data *data);
 int		right_move(t_data *data);
 void	preset_door(t_data *data);
-void	closing_door(t_data *data, float x, float y);
-void	open_door(t_data *data, float x, float y);
 int		test_block(t_data *data, float backup_x, float backup_y);
 void	free_tab(char **tab);
 int		ft_atoi(const char *nbr);
@@ -153,6 +151,6 @@ void	param_texture(t_data *data, t_img texture, char *texture_path);
 void	keep_texture(t_data *data, char *str);
 int		skip_line(char *str);
 void	key_destroyed(t_data *dt);
-void	add_color(t_data *dt);
+int		mouse_click_handler(int button, int x, int y, t_data *data);
 
 #endif
