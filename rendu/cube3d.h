@@ -104,6 +104,7 @@ typedef struct s_data
 }				t_data;
 
 t_img	init_texture(char *f, void *mlx);
+float	absf(float nb);
 int		calc_height(t_data *dt);
 char	**handle_map(char c, char **map);
 t_pos	init_side(t_pos dir_ray, t_pos player, t_pos floored, t_pos delta);

@@ -12,6 +12,13 @@
 
 #include "cube3d.h"
 
+float	absf(float nb)
+{
+	if (nb < 0)
+		nb *= (-1);
+	return (nb);
+}
+
 void	*ft_memset(void *pt, int c, size_t n)
 {
 	size_t	temp;

@@ -36,18 +36,8 @@ t_pos	calc_dir_ray(int x, t_pos dir, t_pos plane)
 	return (ray);
 }
 
-float	absf(float nb)
-{
-	if (nb < 0)
-		nb *= (-1);
-	return (nb);
-}
-
 int	dda(t_data *dt)
 {
-	char	**map;
-
-	map = dt->map;
 	while (1)
 	{
 		if (dt->side_dist.x < dt->side_dist.y)
@@ -62,9 +52,10 @@ int	dda(t_data *dt)
 			dt->floored.y += dt->step.y;
 			dt->side = 1;
 		}
-		if (map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '1' || map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '2')
+		if (dt->map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '1' || \
+		dt->map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '2')
 		{
-			if (map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '1')
+			if (dt->map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '1')
 				dt->info = 1;
 			else
 				dt->info = 3;
