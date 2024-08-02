@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moov.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smarty <smarty@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 00:33:56 by smarty            #+#    #+#             */
-/*   Updated: 2024/08/02 00:33:57 by smarty           ###   ########.fr       */
+/*   Updated: 2024/08/02 12:55:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int	down_move(t_data *data)
 
 	add_x = 0.02;
 	add_y = 0.02;
-	x = data->player.x - cos(data->corner) * data->mv * 4;
-	y = data->player.y - sin(data->corner) * data->mv * 4;
+	x = data->player.x - cos(data->corner) * data->mv;
+	y = data->player.y - sin(data->corner) * data->mv;
 	if (test_block(data, x, y) == 2)
 		open_door(data, x, y);
 	if (test_block(data, x, y) == 1)
@@ -71,8 +71,8 @@ int	right_move(t_data *data)
 	float	x;
 	float	y;
 
-	add_x = 0.02;
-	add_y = 0.02;
+	add_x = 0.2;
+	add_y = 0.2;
 	x = data->player.x + cos(data->corner + M_PI / 2) * data->mv;
 	y = data->player.y + sin(data->corner + M_PI / 2) * data->mv;
 	if (test_block(data, x, y) == 2)
@@ -99,8 +99,8 @@ int	left_move(t_data *data)
 
 	add_x = 0.02;
 	add_y = 0.02;
-	x = data->player.x + cos(data->corner + M_PI / 2) * data->mv;
-	y = data->player.y + sin(data->corner + M_PI / 2) * data->mv;
+	x = data->player.x + cos(data->corner - M_PI / 2) * data->mv;
+	y = data->player.y + sin(data->corner - M_PI / 2) * data->mv;
 	if (test_block(data, x, y) == 2)
 		open_door(data, x, y);
 	if (test_block(data, x, y) == 1)

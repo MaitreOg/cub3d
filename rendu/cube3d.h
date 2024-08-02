@@ -153,4 +153,6 @@ void	param_texture(t_data *data, t_img texture, char *texture_path);
 void	keep_texture(t_data *data, char *str);
 int		skip_line(char *str);
 void	key_destroyed(t_data *dt);
+void	add_color(t_data *dt);
+
 #endif

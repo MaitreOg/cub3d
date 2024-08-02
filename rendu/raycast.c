@@ -6,22 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:13:42 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/01 00:18:20 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/02 12:39:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-
-void	add_color(t_data *dt)
-{
-	int	x;
-
-	x = -1;
-	while (++x < WIDTH * HEIGHT / 2)
-		dt->img.data[x] = dt->c;
-	while (++x < WIDTH * HEIGHT)
-		dt->img.data[x] = dt->f;
-}
 
 t_pos	calc_dir_ray(int x, t_pos dir, t_pos plane)
 {
@@ -45,9 +34,6 @@ float	absf(float nb)
 
 int	dda(t_data *dt)
 {
-	char	**map;
-
-	map = dt->map;
 	while (1)
 	{
 		if (dt->side_dist.x < dt->side_dist.y)
@@ -62,12 +48,10 @@ int	dda(t_data *dt)
 			dt->floored.y += dt->step.y;
 			dt->side = 1;
 		}
-		if (map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '1' || map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '2')
+		if (dt->map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '1' || \
+		dt->map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '2')
 		{
-			if (map[(int)(dt->floored.y)][(int)(dt->floored.x)] == '1')
-				dt->info = 1;
-			else
-				dt->info = 3;
+			dt->info = dt->map[(int)(dt->floored.y)][(int)(dt->floored.x)] - 48;
 			break ;
 		}
 	}
