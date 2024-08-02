@@ -93,8 +93,8 @@ int	left_move(t_data *data)
 
 	ax = 0.02;
 	ay = 0.02;
-	x = data->player.x + cos(data->corner + M_PI / 2) * data->mv;
-	y = data->player.y + sin(data->corner + M_PI / 2) * data->mv;
+	x = data->player.x + cos(data->corner - M_PI / 2) * data->mv;
+	y = data->player.y + sin(data->corner - M_PI / 2) * data->mv;
 	if (test_block(data, x, y) == 1 || test_block(data, x, y) == 2)
 		return (1);
 	if (test_block(data, x + ax, y) == 1 || test_block(data, x + ax, y) == 2)

@@ -44,6 +44,7 @@ void	manage_door(t_data *data, float x, float y)
 	{
 		data->map[int_y][int_x] = '2';
 	}
+	raycast(data, data->mlx_ptr, data->win_ptr);
 }
 
 int	mouse_click_handler(int button, int x, int y, t_data *data)
