@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:09:16 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/04 11:24:00 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/04 17:02:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ void	pars(t_data *data, char **av)
 
 	str = "\0";
 	fd = open(av[1], 0);
-	if (!fd)
-		printf("error\n");
+	if (fd == -1)
+		return (printf("Error\nError while opening the file\n"), key_destroyed2(data), exit(1));
 	line = get_next_line(fd);
 	i = 0;
 	while (line)

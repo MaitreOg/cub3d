@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:32:24 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/04 11:23:10 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/04 16:59:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,45 @@ int	mouse_move_handler(int x, int y, t_data *data)
 	return (0);
 }
 
+void	init_keys(t_data *data)
+{
+	data->keys.backward = 0;
+	data->keys.forward = 0;
+	data->keys.move_right = 0;
+	data->keys.move_left = 0;
+	data->keys.rleft = 0;
+	data->keys.rright = 0;
+}
+
+void	init_all_tex(t_data *dt)
+{
+	dt->so.img_ptr = NULL;
+	dt->no.img_ptr = NULL;
+	dt->eo.img_ptr = NULL;
+	dt->wo.img_ptr = NULL;
+	dt->d_o.img_ptr = NULL;
+}
+
+int	check_data_text(t_data *dt)
+{
+	if (!dt->so.img_ptr || !dt->no.img_ptr || !dt->eo.img_ptr || \
+	!dt->wo.img_ptr || !dt->d_o.img_ptr)
+		return (1);
+	return (0);
+}
 void	create_win(char **av)
 {
 	t_data	data;
 
 	data.mlx_ptr = mlx_init();
 	data.win_ptr = mlx_new_window(data.mlx_ptr, WIDTH, HEIGHT, "Cub3d");
-	data.keys.backward = 0;
-	data.keys.forward = 0;
-	data.keys.move_right = 0;
-	data.keys.move_left = 0;
-	data.keys.rleft = 0;
-	data.keys.rright = 0;
+	init_keys(&data);
+	init_all_tex(&data);
 	if (data.win_ptr == NULL)
 		exit(1);
 	pars(&data, av);
+	if (check_data_text(&data))
+		return (printf("Error\nNot all texture set\n"), key_destroyed(&data), exit(1));
 	raycast(&data, data.mlx_ptr, data.win_ptr);
 	mlx_hook(data.win_ptr, 2, 1L << 0, &key_pressed, &data);
 	mlx_hook(data.win_ptr, 3, 1L << 1, &key_release, &data);
@@ -80,9 +104,12 @@ int	main(int ac, char **av)
 {
 	if (ac != 2)
 	{
-		printf("error\n");
+		printf("Error\ninvalid argument\n");
 		return (0);
 	}
+	printf("%s\n", &(av[1][ft_strlen(av[1]) - 4]));
+	if (ft_strncmp(&(av[1][ft_strlen(av[1]) - 4]), ".cub", 2147483647))
+		return (printf("Error\nfile not in .cubbbb\n"), 1);
 	create_win(av);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 00:34:02 by smarty            #+#    #+#             */
-/*   Updated: 2024/08/04 11:22:31 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/04 16:29:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,7 @@ void	keep_texture(t_data *data, char *str)
 	else if (ft_strncmp(str, "DO ", 3) == 0)
 		data->d_o = init_texture(texture_path, data->mlx_ptr);
 	else if (ft_strncmp(str, "C ", 2) == 0)
-	{
-		printf("HEYYYY\n");
 		data->c = init_color(data, texture_path);
-	}
 	else if (ft_strncmp(str, "F ", 2) == 0)
 		data->f = init_color(data, texture_path);
 	free(texture_path);
