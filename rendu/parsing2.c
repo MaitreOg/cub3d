@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smarty <smarty@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 00:34:02 by smarty            #+#    #+#             */
-/*   Updated: 2024/08/02 00:34:05 by smarty           ###   ########.fr       */
+/*   Updated: 2024/08/04 11:22:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ int	init_color(t_data *dt, char *str)
 	int		n;
 
 	split = ft_split(str, ' ');
-	printf("---> %s\n", split[0]);
 	if (split[0] && split[1] && split[2] && split[3] == NULL)
 	{
 		n = ft_atoi(split[0]) * 256 * 256;
 		n += ft_atoi(split[1]) * 256 + ft_atoi(split[2]);
 	}
+	free_tab(split);
 	return (n);
 }
 

@@ -13,10 +13,10 @@
 #ifndef CUBE3D_H
 # define CUBE3D_H
 
-# define FRAME (1000000 / 60)
+# define FRAME 16667
 # define WIDTH 640
 # define WF 640.0
-# define HEIGHT 480 
+# define HEIGHT 480
 # define H2 240
 # define FOV 1.0472
 # define TEX_WIDTH 100
@@ -56,6 +56,13 @@ typedef struct s_pos
 	float	y;
 }	t_pos;
 
+typedef struct s_sprite
+{
+	float	x;
+	float	y;
+	float	dist;
+}	t_sprite;
+
 typedef struct s_point
 {
 	float			x;
@@ -90,6 +97,7 @@ typedef struct s_data
 	int				lineh;
 	int				x;
 	char			**map;
+	int				map_size[2];
 	float			mv;
 	int				x_mouse;
 //texture
@@ -98,11 +106,13 @@ typedef struct s_data
 	t_img			wo;
 	t_img			eo;
 	t_img			d_o;
+	t_img			sp;
 	int				c;
 	int				f;
-
 }				t_data;
 
+void	key_destroyed2(t_data *dt);
+void	calc_height_sp(t_data *dt);
 t_img	init_texture(char *f, void *mlx);
 float	absf(float nb);
 int		calc_height(t_data *dt);

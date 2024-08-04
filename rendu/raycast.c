@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:13:42 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/01 00:18:20 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/04 11:14:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	raycast(t_data *dt, void *mlx, void *win)
 {
 	dt->img.width = WIDTH;
 	dt->img.height = HEIGHT;
-	dt->img.img_ptr = mlx_new_image(mlx, 640, 480);
+	dt->img.img_ptr = mlx_new_image(mlx, WIDTH, HEIGHT);
 	dt->img.data = (int *)mlx_get_data_addr(dt->img.img_ptr, &dt->img.bpp, \
 &dt->img.size_line, &dt->img.endian);
 	add_color(dt);

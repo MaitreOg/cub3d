@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:09:16 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/01 06:54:31 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/04 11:24:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	pars_env(t_data *data, char *str)
 			{
 				create_map(data, env, i);
 				if (data->map == NULL)
-					return (key_destroyed(data));
+					return (key_destroyed2(data), free_tab(env), free(str), exit(1));
 				stop = 1;
 				break ;
 			}
