@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:32:24 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/04 16:59:41 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/05 18:37:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	close_window(t_data *dt)
 
 int	mouse_move_handler(int x, int y, t_data *data)
 {
+	(void)y;
 	if (x < data->x_mouse)
 	{
 		data->corner -= 0.03;
@@ -67,12 +68,14 @@ void	init_all_tex(t_data *dt)
 	dt->eo.img_ptr = NULL;
 	dt->wo.img_ptr = NULL;
 	dt->d_o.img_ptr = NULL;
+	dt->c = -1;
+	dt->f = -1;
 }
 
 int	check_data_text(t_data *dt)
 {
 	if (!dt->so.img_ptr || !dt->no.img_ptr || !dt->eo.img_ptr || \
-	!dt->wo.img_ptr || !dt->d_o.img_ptr)
+	!dt->wo.img_ptr || !dt->d_o.img_ptr || dt->c == -1 || dt->f == -1)
 		return (1);
 	return (0);
 }

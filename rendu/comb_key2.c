@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   comb_key2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smarty <smarty@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 00:33:05 by smarty            #+#    #+#             */
-/*   Updated: 2024/08/02 00:33:08 by smarty           ###   ########.fr       */
+/*   Updated: 2024/08/05 18:39:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ void	rright(t_data *data)
 
 void	mv_right(t_data *data)
 {
-	float	x;
-	float	y;
-
-	x = data->player.x;
-	y = data->player.y;
 	data->player.x += cos(data->corner + M_PI / 2) * data->mv;
 	data->player.y += sin(data->corner + M_PI / 2) * data->mv;
 	raycast(data, data->mlx_ptr, data->win_ptr);
@@ -46,11 +41,6 @@ void	mv_right(t_data *data)
 
 void	mv_left(t_data *data)
 {
-	float	x;
-	float	y;
-
-	x = data->player.x;
-	y = data->player.y;
 	data->player.x += cos(data->corner - M_PI / 2) * data->mv;
 	data->player.y += sin(data->corner - M_PI / 2) * data->mv;
 	raycast(data, data->mlx_ptr, data->win_ptr);
@@ -58,11 +48,6 @@ void	mv_left(t_data *data)
 
 void	backward(t_data *data)
 {
-	float	x;
-	float	y;
-
-	x = data->player.x;
-	y = data->player.y;
 	data->player.x -= cos(data->corner) * data->mv;
 	data->player.y -= sin(data->corner) * data->mv;
 	raycast(data, data->mlx_ptr, data->win_ptr);

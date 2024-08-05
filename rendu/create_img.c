@@ -46,12 +46,11 @@ void	get_color_px2(int y, t_data *dt, int texc[])
 	}
 }
 
-void	get_color_px(t_data *dt, t_img *img)
+void	get_color_px(t_data *dt)
 {
 	float	wallx;
 	int		texc[2];
 	int		y;
-	int		d;
 
 	if (dt->side == 0)
 		wallx = dt->player.y + dt->wall_dist * dt->dir_ray.y;
@@ -71,7 +70,7 @@ void	get_color_px(t_data *dt, t_img *img)
 	}
 }
 
-void	create_img(t_data *dt, t_img *img, void *mlx)
+void	create_img(t_data *dt)
 {
-	get_color_px(dt, img);
+	get_color_px(dt);
 }

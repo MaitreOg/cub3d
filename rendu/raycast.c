@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:13:42 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/04 16:18:19 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/05 18:32:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	raycast(t_data *dt, void *mlx, void *win)
 		dt->to_draw[1] = dt->lineh / 2 + HEIGHT / 2;
 		if (dt->to_draw[1] >= HEIGHT)
 			dt->to_draw[1] = HEIGHT;
-		create_img(dt, &(dt->img), mlx);
+		create_img(dt);
 		dt->x += 1;
 	}
 	draw_minimap(dt);

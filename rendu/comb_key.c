@@ -38,6 +38,7 @@ int	update2(t_data *data, int pressed)
 		if (pressed < 3 && down_move(data) == 0)
 			backward(data);
 	}
+	return (0);
 }
 
 int	update(t_data *data)
@@ -62,7 +63,7 @@ int	update(t_data *data)
 			rright(data);
 		}
 	}
-	update2(data, pressed);
+	return (update2(data, pressed));
 }
 
 void	key_destroyed(t_data *dt)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moov.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smarty <smarty@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 00:33:56 by smarty            #+#    #+#             */
-/*   Updated: 2024/08/02 00:33:57 by smarty           ###   ########.fr       */
+/*   Updated: 2024/08/05 18:40:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,6 @@ int	left_move(t_data *data)
 
 void	forward(t_data *data)
 {
-	float	x;
-	float	y;
-
-	x = data->player.x;
-	y = data->player.y;
 	data->player.x += cos(data->corner) * data->mv;
 	data->player.y += sin(data->corner) * data->mv;
 	raycast(data, data->mlx_ptr, data->win_ptr);

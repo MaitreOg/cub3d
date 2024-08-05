@@ -65,11 +65,9 @@ int	check_map(char **map)
 	return (0);
 }
 
-char	**create_map(t_data *data, char **parsing, int i)
+void	create_map(t_data *data, char **parsing, int i)
 {
 	int		y;
-	char	**map;
-	char	*str;
 
 	y = i;
 	while (parsing[y])
@@ -89,7 +87,6 @@ char	**create_map(t_data *data, char **parsing, int i)
 	{
 		ft_free(data->map);
 		data->map = NULL;
-		return (NULL);
+		return ;
 	}
-	return (map);
 }

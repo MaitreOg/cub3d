@@ -9,7 +9,7 @@ MLX_A   = $(addprefix $(MLX), libmlx.a)
 
 CC = cc
 
-CFLAGS = -g
+CFLAGS = -g -Wall -Werror -Wextra
 
 MLX_FLAGS = -lX11 -lXext -Imlx -lm
 

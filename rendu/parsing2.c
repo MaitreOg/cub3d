@@ -6,22 +6,29 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 00:34:02 by smarty            #+#    #+#             */
-/*   Updated: 2024/08/04 16:29:42 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/05 19:53:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int	init_color(t_data *dt, char *str)
+int	init_color(char *str)
 {
 	char	**split;
 	int		n;
 
 	split = ft_split(str, ' ');
-	if (split[0] && split[1] && split[2] && split[3] == NULL)
+	if (split[0] && ft_atoi(split[0]) >=0 && ft_atoi(split[0]) < 256 && \
+split[1] && ft_atoi(split[1]) >=0 && ft_atoi(split[1]) < 256 && split[2] && \
+ft_atoi(split[2]) >=0 && ft_atoi(split[2]) < 256 && split[3] == NULL)
 	{
 		n = ft_atoi(split[0]) * 256 * 256;
 		n += ft_atoi(split[1]) * 256 + ft_atoi(split[2]);
+	}
+	else
+	{
+		free_tab(split);
+		return (-1);
 	}
 	free_tab(split);
 	return (n);
@@ -47,7 +54,7 @@ void	param_texture(t_data *data, t_img texture, char *texture_path)
 texture.width, texture_path);
 }
 
-void	keep_texture(t_data *data, char *str)
+void	keep_texture(t_data *data, char *str, char **env, char *s)
 {
 	char	*texture_path;
 	int		i;
@@ -56,20 +63,23 @@ void	keep_texture(t_data *data, char *str)
 	while (str[i] == ' ')
 		i++;
 	texture_path = ft_strdup(&str[i]);
-	if (ft_strncmp(str, "NO ", 3) == 0)
+	if (ft_strncmp(str, "NO ", 3) == 0 && !data->no.img_ptr)
 		data->no = init_texture(texture_path, data->mlx_ptr);
-	else if (ft_strncmp(str, "SO ", 3) == 0)
+	else if (ft_strncmp(str, "SO ", 3) == 0  && !data->so.img_ptr)
 		data->so = init_texture(texture_path, data->mlx_ptr);
-	else if (ft_strncmp(str, "WO ", 3) == 0)
+	else if (ft_strncmp(str, "WO ", 3) == 0 && !data->wo.img_ptr)
 		data->wo = init_texture(texture_path, data->mlx_ptr);
-	else if (ft_strncmp(str, "EO ", 3) == 0)
+	else if (ft_strncmp(str, "EO ", 3) == 0 && !data->eo.img_ptr)
 		data->eo = init_texture(texture_path, data->mlx_ptr);
-	else if (ft_strncmp(str, "DO ", 3) == 0)
+	else if (ft_strncmp(str, "DO ", 3) == 0 && !data->d_o.img_ptr)
 		data->d_o = init_texture(texture_path, data->mlx_ptr);
-	else if (ft_strncmp(str, "C ", 2) == 0)
-		data->c = init_color(data, texture_path);
-	else if (ft_strncmp(str, "F ", 2) == 0)
-		data->f = init_color(data, texture_path);
+	else if (ft_strncmp(str, "C ", 2) == 0 && data->c == -1)
+		data->c = init_color(texture_path);
+	else if (ft_strncmp(str, "F ", 2) == 0 && data->f == -1)
+		data->f = init_color(texture_path);
+	else
+		return (free(texture_path), free_tab(env), free(s), \
+(void)printf("Error\nTexture already exist\n"), key_destroyed2(data), exit(1));
 	free(texture_path);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smarty <smarty@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 00:34:09 by smarty            #+#    #+#             */
-/*   Updated: 2024/08/02 00:34:10 by smarty           ###   ########.fr       */
+/*   Updated: 2024/08/05 18:40:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_strlen_cub(char *str)
 	return (i);
 }
 
-char	*ft_strjoin_cub(char *s1, char *s2, int a, int b)
+char	*ft_strjoin_cub(char *s1, char *s2, int a)
 {
 	int		i;
 	int		j;

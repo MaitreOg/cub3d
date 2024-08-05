@@ -18,6 +18,12 @@ t_img	init_texture(char *f, void *mlx)
 
 	texture.height = 100;
 	texture.width = 100;
+	if (open(f, O_RDONLY) == -1)
+	{
+		texture.img_ptr = NULL;
+		texture.data = NULL;
+		return (printf("Error\nTexture at path: %s does not exist\n", f), texture);
+	}
 	texture.img_ptr = mlx_xpm_file_to_image(mlx, f, &texture.width, \
 &texture.height);
 	texture.data = (int *)mlx_get_data_addr(texture.img_ptr, &texture.bpp, \

@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:09:16 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/04 17:02:43 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/05 18:41:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-void	parsing(t_data *data, char *str)
+void	parsing(t_data *data, char *str, char **env, char *s)
 {
 	int	i;
 
@@ -25,7 +25,10 @@ void	parsing(t_data *data, char *str)
 		|| ft_strncmp(&str[i], "DO", 2) == 0
 		|| ft_strncmp(&str[i], "C", 1) == 0
 		|| ft_strncmp(&str[i], "F", 1) == 0)
-		keep_texture(data, &str[i]);
+		keep_texture(data, &str[i], env, s);
+	else
+		return (printf("Error\nError while reading map (Unreconized Token ?)\n"), \
+		key_destroyed2(data), free_tab(env), free(s), exit(1));
 }
 
 void	init_player(t_data *data, int x, int y, char c)
@@ -38,7 +41,7 @@ void	init_player(t_data *data, int x, int y, char c)
 		data->corner = -M_PI / 2;
 	else if (c == 'W')
 		data->corner = M_PI;
-	else if (c == 'S')
+	else if (c == 'E')
 		data->corner = 0;
 	data->dir_cam.x = cos(data->corner);
 	data->dir_cam.y = sin(data->corner);
@@ -89,7 +92,7 @@ void	pars_env(t_data *data, char *str)
 				stop = 1;
 				break ;
 			}
-			parsing(data, env[i]);
+			parsing(data, env[i], env, str);
 		}
 		i++;
 	}
@@ -112,9 +115,9 @@ void	pars(t_data *data, char **av)
 	while (line)
 	{
 		if (i > 0)
-			str = ft_strjoin_cub(str, line, 1, 0);
+			str = ft_strjoin_cub(str, line, 1);
 		else
-			str = ft_strjoin_cub(str, line, 0, 0);
+			str = ft_strjoin_cub(str, line, 0);
 		free(line);
 		line = get_next_line(fd);
 		i++;
