@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:32:24 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/05 18:37:56 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/06 11:05:01 by rmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,23 @@ void	init_keys(t_data *data)
 void	init_all_tex(t_data *dt)
 {
 	dt->so.img_ptr = NULL;
+	dt->so.init = -1;
 	dt->no.img_ptr = NULL;
+	dt->no.init = -1;
 	dt->eo.img_ptr = NULL;
+	dt->eo.init = -1;
 	dt->wo.img_ptr = NULL;
+	dt->wo.init = -1;
 	dt->d_o.img_ptr = NULL;
+	dt->d_o.init = -1;
 	dt->c = -1;
 	dt->f = -1;
 }
 
 int	check_data_text(t_data *dt)
 {
-	if (!dt->so.img_ptr || !dt->no.img_ptr || !dt->eo.img_ptr || \
-	!dt->wo.img_ptr || !dt->d_o.img_ptr || dt->c == -1 || dt->f == -1)
+	if (dt->so.init < 0 || dt->no.init < 0 || dt->eo.init < 0 || \
+	dt->wo.init < 0 || dt->d_o.init < 0 || dt->c < 0 || dt->f < 0)
 		return (1);
 	return (0);
 }
@@ -112,7 +117,7 @@ int	main(int ac, char **av)
 	}
 	printf("%s\n", &(av[1][ft_strlen(av[1]) - 4]));
 	if (ft_strncmp(&(av[1][ft_strlen(av[1]) - 4]), ".cub", 2147483647))
-		return (printf("Error\nfile not in .cubbbb\n"), 1);
+		return (printf("Error\nfile not in .cub\n"), 1);
 	create_win(av);
 	return (0);
 }

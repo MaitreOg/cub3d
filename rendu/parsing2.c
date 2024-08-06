@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 00:34:02 by smarty            #+#    #+#             */
-/*   Updated: 2024/08/05 19:53:26 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/06 11:04:05 by rmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ ft_atoi(split[2]) >=0 && ft_atoi(split[2]) < 256 && split[3] == NULL)
 	else
 	{
 		free_tab(split);
-		return (-1);
+		return (-2);
 	}
 	free_tab(split);
 	return (n);
@@ -63,15 +63,15 @@ void	keep_texture(t_data *data, char *str, char **env, char *s)
 	while (str[i] == ' ')
 		i++;
 	texture_path = ft_strdup(&str[i]);
-	if (ft_strncmp(str, "NO ", 3) == 0 && !data->no.img_ptr)
+	if (ft_strncmp(str, "NO ", 3) == 0 && data->no.init == -1)
 		data->no = init_texture(texture_path, data->mlx_ptr);
-	else if (ft_strncmp(str, "SO ", 3) == 0  && !data->so.img_ptr)
+	else if (ft_strncmp(str, "SO ", 3) == 0  && data->so.init == -1)
 		data->so = init_texture(texture_path, data->mlx_ptr);
-	else if (ft_strncmp(str, "WO ", 3) == 0 && !data->wo.img_ptr)
+	else if (ft_strncmp(str, "WO ", 3) == 0 && data->wo.init == -1)
 		data->wo = init_texture(texture_path, data->mlx_ptr);
-	else if (ft_strncmp(str, "EO ", 3) == 0 && !data->eo.img_ptr)
+	else if (ft_strncmp(str, "EO ", 3) == 0 && data->eo.init == -1)
 		data->eo = init_texture(texture_path, data->mlx_ptr);
-	else if (ft_strncmp(str, "DO ", 3) == 0 && !data->d_o.img_ptr)
+	else if (ft_strncmp(str, "DO ", 3) == 0 && data->d_o.init == -1)
 		data->d_o = init_texture(texture_path, data->mlx_ptr);
 	else if (ft_strncmp(str, "C ", 2) == 0 && data->c == -1)
 		data->c = init_color(texture_path);

@@ -6,7 +6,7 @@
 /*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:21:24 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/07/31 15:21:24 by rmichel-         ###   ########.fr       */
+/*   Updated: 2024/08/06 11:03:33 by rmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_img	init_texture(char *f, void *mlx)
 	{
 		texture.img_ptr = NULL;
 		texture.data = NULL;
+		texture.init = -2;
 		return (printf("Error\nTexture at path: %s does not exist\n", f), texture);
 	}
 	texture.img_ptr = mlx_xpm_file_to_image(mlx, f, &texture.width, \

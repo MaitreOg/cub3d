@@ -6,7 +6,7 @@
 /*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:21:45 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/07/31 16:21:45 by rmichel-         ###   ########.fr       */
+/*   Updated: 2024/08/06 11:04:33 by rmichel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_img
 	int		endian;
 	int		width;
 	int		height;
+	int		init;
 }	t_img;
 
 typedef struct s_pos
@@ -110,7 +111,6 @@ typedef struct s_data
 	int				c;
 	int				f;
 // map generator
-	int				size[2];
 }				t_data;
 
 void	key_destroyed2(t_data *dt);
