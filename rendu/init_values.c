@@ -23,7 +23,7 @@ t_img	init_texture(char *f, void *mlx)
 		texture.img_ptr = NULL;
 		texture.data = NULL;
 		texture.init = -2;
-		return (printf("Error\nTexture at path: %s does not exist\n", f), texture);
+		return (write(2, "Error\nTexture does not exist\n", 29), texture);
 	}
 	texture.img_ptr = mlx_xpm_file_to_image(mlx, f, &texture.width, \
 &texture.height);

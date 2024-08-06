@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:09:16 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/05 18:41:15 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/06 15:50:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	parsing(t_data *data, char *str, char **env, char *s)
 		|| ft_strncmp(&str[i], "F", 1) == 0)
 		keep_texture(data, &str[i], env, s);
 	else
-		return (printf("Error\nError while reading map (Unreconized Token ?)\n"), \
+		return (write(2, "Error\nUnreconized Token\n", 24), \
 		key_destroyed2(data), free_tab(env), free(s), exit(1));
 }
 
@@ -88,7 +88,8 @@ void	pars_env(t_data *data, char *str)
 			{
 				create_map(data, env, i);
 				if (data->map == NULL)
-					return (key_destroyed2(data), free_tab(env), free(str), exit(1));
+					return (key_destroyed2(data), free_tab(env), \
+					free(str), exit(1));
 				stop = 1;
 				break ;
 			}
@@ -109,7 +110,8 @@ void	pars(t_data *data, char **av)
 	str = "\0";
 	fd = open(av[1], 0);
 	if (fd == -1)
-		return (printf("Error\nError while opening the file\n"), key_destroyed2(data), exit(1));
+		return (write(2, "Error\nError while opening the file\n", 35), \
+		key_destroyed2(data), exit(1));
 	line = get_next_line(fd);
 	i = 0;
 	while (line)
@@ -124,6 +126,5 @@ void	pars(t_data *data, char **av)
 	}
 	free(line);
 	pars_env(data, str);
-	free(str);
-	find_player_pos(data);
+	return (free(str), find_player_pos(data));
 }

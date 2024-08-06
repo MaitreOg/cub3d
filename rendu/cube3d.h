@@ -166,5 +166,6 @@ void	keep_texture(t_data *data, char *str, char **env, char *s);
 int		skip_line(char *str);
 void	key_destroyed(t_data *dt);
 int		mouse_click_handler(int button, int x, int y, t_data *data);
-
+void	init_all_tex(t_data *dt);
+int		check_data_text(t_data *dt);
 #endif

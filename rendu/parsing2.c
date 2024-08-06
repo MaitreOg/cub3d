@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 00:34:02 by smarty            #+#    #+#             */
-/*   Updated: 2024/08/06 11:04:05 by rmichel-         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:08:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	init_color(char *str)
 	int		n;
 
 	split = ft_split(str, ' ');
-	if (split[0] && ft_atoi(split[0]) >=0 && ft_atoi(split[0]) < 256 && \
-split[1] && ft_atoi(split[1]) >=0 && ft_atoi(split[1]) < 256 && split[2] && \
-ft_atoi(split[2]) >=0 && ft_atoi(split[2]) < 256 && split[3] == NULL)
+	if (split[0] && ft_atoi(split[0]) >= 0 && ft_atoi(split[0]) < 256 && \
+split[1] && ft_atoi(split[1]) >= 0 && ft_atoi(split[1]) < 256 && split[2] && \
+ft_atoi(split[2]) >= 0 && ft_atoi(split[2]) < 256 && split[3] == NULL)
 	{
 		n = ft_atoi(split[0]) * 256 * 256;
 		n += ft_atoi(split[1]) * 256 + ft_atoi(split[2]);
@@ -50,8 +50,6 @@ void	param_texture(t_data *data, t_img texture, char *texture_path)
 	texture.width = 100;
 	texture.img_ptr = mlx_xpm_file_to_image(data->mlx_ptr, texture_path, \
 &texture.width, &texture.height);
-	printf("height = %d, width = %d, texture = %s\n", texture.height, \
-texture.width, texture_path);
 }
 
 void	keep_texture(t_data *data, char *str, char **env, char *s)
@@ -65,7 +63,7 @@ void	keep_texture(t_data *data, char *str, char **env, char *s)
 	texture_path = ft_strdup(&str[i]);
 	if (ft_strncmp(str, "NO ", 3) == 0 && data->no.init == -1)
 		data->no = init_texture(texture_path, data->mlx_ptr);
-	else if (ft_strncmp(str, "SO ", 3) == 0  && data->so.init == -1)
+	else if (ft_strncmp(str, "SO ", 3) == 0 && data->so.init == -1)
 		data->so = init_texture(texture_path, data->mlx_ptr);
 	else if (ft_strncmp(str, "WO ", 3) == 0 && data->wo.init == -1)
 		data->wo = init_texture(texture_path, data->mlx_ptr);
@@ -79,7 +77,7 @@ void	keep_texture(t_data *data, char *str, char **env, char *s)
 		data->f = init_color(texture_path);
 	else
 		return (free(texture_path), free_tab(env), free(s), \
-(void)printf("Error\nTexture already exist\n"), key_destroyed2(data), exit(1));
+		write(2, "Error\nTexture exist\n", 20), key_destroyed2(data), exit(1));
 	free(texture_path);
 }
 

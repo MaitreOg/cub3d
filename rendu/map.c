@@ -24,6 +24,7 @@ int	check_e(char **map, int x, int y)
 		return (1);
 	return (0);
 }
+
 int	check_e2(char **map, int x, int y)
 {
 	if (x == -1 || y == -1)
@@ -49,14 +50,14 @@ int	check_map(char **map)
 		while (map[x][y] != '\0')
 		{
 			if (check_e2(map, x, y))
-				return (printf("Error\nInvalid character on map\n"), 1);
+				return (write(2, "Error\nInvalid char on map\n", 26), 1);
 			if (map[x][y] == '0')
 			{
 				if (check_e(map, x - 1, y - 1) || check_e(map, x - 1, y)
 					|| check_e(map, x - 1, y + 1) || check_e(map, x, y - 1)
 					|| check_e(map, x - 1, y + 1) || check_e(map, x + 1, y - 1)
 					|| check_e(map, x + 1, y) || check_e(map, x + 1, y + 1))
-					return (printf("Error\nInvalid character on map\n"), 1);
+					return (write(2, "Error\nInvalid char on map\n", 26), 1);
 			}
 			y++;
 		}
@@ -73,10 +74,14 @@ void	create_map(t_data *data, char **parsing, int i)
 	while (parsing[y])
 		y++;
 	data->map = malloc(sizeof(char *) * (y - i + 2));
+	data->map_size[1] = y - i;
+	data->map_size[0] = 0;
 	y = 0;
 	while (parsing[i])
 	{
 		data->map[y] = ft_strdup(parsing[i]);
+		if ((int)ft_strlen(parsing[i]) > data->map_size[0])
+			data->map_size[0] = (int)ft_strlen(parsing[i]);
 		y++;
 		i++;
 	}

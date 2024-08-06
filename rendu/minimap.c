@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmichel- <rmichel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:54:46 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/07/31 16:08:41 by rmichel-         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:47:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void	draw_minimap(t_data *data)
 	int	y;
 
 	y = 0;
-	data->mul_side = WIDTH / (63 * 4);
-	if (data->mul_side > HEIGHT / (data->map_size[1] * 4))
-		data->mul_side = WIDTH / (data->map_size[0] * 4);	
+	data->mul_side = WIDTH / (data->map_size[1] * 3);
+	if (data->mul_side > HEIGHT / (data->map_size[1] * 3))
+		data->mul_side = WIDTH / (data->map_size[0] * 3);
 	while (data->map[y])
 	{
 		x = -1;

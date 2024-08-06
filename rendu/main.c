@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:32:24 by rmichel-          #+#    #+#             */
-/*   Updated: 2024/08/06 11:05:01 by rmichel-         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:22:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,29 +62,6 @@ void	init_keys(t_data *data)
 	data->keys.rright = 0;
 }
 
-void	init_all_tex(t_data *dt)
-{
-	dt->so.img_ptr = NULL;
-	dt->so.init = -1;
-	dt->no.img_ptr = NULL;
-	dt->no.init = -1;
-	dt->eo.img_ptr = NULL;
-	dt->eo.init = -1;
-	dt->wo.img_ptr = NULL;
-	dt->wo.init = -1;
-	dt->d_o.img_ptr = NULL;
-	dt->d_o.init = -1;
-	dt->c = -1;
-	dt->f = -1;
-}
-
-int	check_data_text(t_data *dt)
-{
-	if (dt->so.init < 0 || dt->no.init < 0 || dt->eo.init < 0 || \
-	dt->wo.init < 0 || dt->d_o.init < 0 || dt->c < 0 || dt->f < 0)
-		return (1);
-	return (0);
-}
 void	create_win(char **av)
 {
 	t_data	data;
@@ -97,7 +74,8 @@ void	create_win(char **av)
 		exit(1);
 	pars(&data, av);
 	if (check_data_text(&data))
-		return (printf("Error\nNot all texture set\n"), key_destroyed(&data), exit(1));
+		return (write(2, "Error\nNot all texture set\n", 26), \
+		key_destroyed(&data), exit(1));
 	raycast(&data, data.mlx_ptr, data.win_ptr);
 	mlx_hook(data.win_ptr, 2, 1L << 0, &key_pressed, &data);
 	mlx_hook(data.win_ptr, 3, 1L << 1, &key_release, &data);
@@ -113,12 +91,11 @@ int	main(int ac, char **av)
 {
 	if (ac != 2)
 	{
-		printf("Error\ninvalid argument\n");
+		write(2, "Error\ninvalid argument\n", 23);
 		return (0);
 	}
-	printf("%s\n", &(av[1][ft_strlen(av[1]) - 4]));
 	if (ft_strncmp(&(av[1][ft_strlen(av[1]) - 4]), ".cub", 2147483647))
-		return (printf("Error\nfile not in .cub\n"), 1);
+		return (write(2, "Error\nfile not in .cub\n", 23), 1);
 	create_win(av);
 	return (0);
 }
