@@ -29,6 +29,7 @@ t_img	init_texture(char *f, void *mlx)
 &texture.height);
 	texture.data = (int *)mlx_get_data_addr(texture.img_ptr, &texture.bpp, \
 &texture.size_line, &texture.endian);
+	texture.init = 0;
 	return (texture);
 }
 

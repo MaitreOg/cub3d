@@ -14,10 +14,10 @@
 # define CUBE3D_H
 
 # define FRAME 16667
-# define WIDTH 640
-# define WF 640.0
-# define HEIGHT 480
-# define H2 240
+# define WIDTH 1280
+# define WF 1280.0
+# define HEIGHT 720
+# define H2 360
 # define FOV 1.0472
 # define TEX_WIDTH 100
 # define TEX_HEIGHT 100

@@ -22,6 +22,7 @@ int	close_window(t_data *dt)
 	mlx_destroy_window(dt->mlx_ptr, dt->win_ptr);
 	mlx_destroy_display(dt->mlx_ptr);
 	free(dt->mlx_ptr);
+	free_tab(dt->map);
 	exit (EXIT_SUCCESS);
 	return (0);
 }

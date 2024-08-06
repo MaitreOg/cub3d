@@ -80,7 +80,6 @@ void	create_map(t_data *data, char **parsing, int i)
 		y++;
 		i++;
 	}
-	printf("%s\n", data->map[y - 1]);
 	data->map[y] = NULL;
 	preset_door(data);
 	if (check_map(data->map) == 1)
